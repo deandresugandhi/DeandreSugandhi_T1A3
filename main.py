@@ -1,22 +1,13 @@
-from gameboard import Board, Piece
-import subprocess
+from game_board import Board, Piece
+from win_conditions import VictoryChecker
+from game_engine import game_start
 
-def clear_screen():
-    try:
-        subprocess.run("cls", shell=True, check=True)
-    except subprocess.CalledProcessError:
-        subprocess.run("clear", shell=True, check=True)
-
+board = Board()
 player1 = Piece("Foo","red", "O", "1")
 player2 = Piece("Bar","blue", "X", "2")
-board = Board()
-print(board._array[0, 1:4])
+referee = VictoryChecker(board, player1, player2)
 
-for i in range(3):
-    board.display()
-    player1_column = int(input("P1 Turn: "))
-    player1.drop(board, player1_column)
-    player2_column = int(input("P2 Turn: "))
-    player2.drop(board, player2_column)
-    clear_screen()
+game_start(board, player1, player2, referee)
+
+
 

@@ -27,6 +27,7 @@ class Board:
     def clear_board(self):
         self._array = np.array([[0 for i in range(7)] for i in range(6)])
 
+
 class Piece:
     def __init__(self, player_name, color, piece_type, player):
         self._player_name = player_name
