@@ -10,6 +10,7 @@ def clear_screen():
 player1 = Piece("Foo","red", "O", "1")
 player2 = Piece("Bar","blue", "X", "2")
 board = Board()
+print(board._array[0, 1:4])
 
 for i in range(3):
     board.display()
