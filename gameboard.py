@@ -2,38 +2,48 @@ import numpy as np
 from colorama import Fore
 import colorama
 
+
 colorama.init(autoreset=True)
 
-edge = "+===" *7 + "+"
-divider = "+---"*7 + "+"
-column = [f"  {i+1} " for i in range(7)]
+class Board:
+    def __init__(self):
+        self._array = np.array([[0 for i in range(7)] for i in range(6)])
+        self._edge = "+===" *7 + "+"
+        self._divider = "+---"*7 + "+"
+        self._column = [f"  {i+1} " for i in range(7)]
 
-gameboard = np.array([[0 for i in range(7)] for i in range(6)])
+    def display(self):
+        print(f"{Fore.RED}        COLUMN NUMBER        ")
+        print(*self._column, sep="")
+        for row in self._array:
+            print(self._divider)
+            for index, slot in enumerate(row):
+                if index < 6:
+                    print(f"| {slot} ".replace("0", " "), end="")
+                else: 
+                    print(f"| {slot} |".replace("0", " "))
+        print(self._edge)
 
-def display_board():
-    print(f"{Fore.RED}        COLUMN NUMBER        ")
-    print(*column, sep="")
-    for row in gameboard:
-        print(divider)
-        for index, slot in enumerate(row):
-            if index < 6:
-                print(f"| {slot} ".replace("0", " "), end="")
-            else: 
-                print(f"| {slot} |".replace("0", " "))
-    print(edge)
+    def clear_board(self):
+        self._array = np.array([[0 for i in range(7)] for i in range(6)])
 
 class Piece:
-    def __init__(self, color, piece_type, player):
-        self.color = color
-        self.piece_type = piece_type
-        self.player = player
-    def drop(self):
-        gameboard[-1, 1] = self.player
+    def __init__(self, player_name, color, piece_type, player):
+        self._player_name = player_name
+        self._color = color
+        self._piece_type = piece_type
+        self._player = player
+    
+    def drop(self, board, column):
+        row = -1
+        while board._array[row, column - 1] != 0:
+            row -= 1
+            if row < -6:
+                print("No more space to drop!")
+                return "Illegal move"
+        board._array[row, column - 1] = self._player
 
-player1 = Piece("red", "O", "1")
-player2 = Piece("blue", "X", "2")
 
-player2.drop()
 
-display_board()
+
 
