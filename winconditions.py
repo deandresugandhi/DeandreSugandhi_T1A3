@@ -9,8 +9,8 @@ def horizontal_victory(board, piece1, piece2):
                 continue
 
 def vertical_victory(board, piece1, piece2):
-    for i_column in range(7): 
-        for i_row in range(3):
+    for i_row in range(3): 
+        for i_column in range(7):
             if all(board._array[i_row:i_row + 4, i_column]):
                 return f"{piece1._player_name} wins"
             elif all(slot > 1 for slot in board._array[i_row:i_row + 4, i_column]):
@@ -20,7 +20,6 @@ def vertical_victory(board, piece1, piece2):
 
 def diagonal_victory(board, piece1, piece2):
     for i_row in range(3):
-        # North-West to South-East diagonal
         for i_column in range(4):
             if all(board._array[i + i_row, i + i_column] for i in range(4)) or all(board._array[i + i_row, (3 + i_column) - i] for i in range(4)):
                 return f"{piece1._player_name} wins"
