@@ -1,7 +1,8 @@
 from game_board import Board
+from win_conditions import VictoryChecker
 import subprocess
 
-def game_start(board, player1, player2, referee):
+def game_start(board, players, referee):
     def clear_screen():
         try:
             subprocess.run("cls", shell=True, check=True)
@@ -12,24 +13,18 @@ def game_start(board, player1, player2, referee):
         clear_screen()
         board.display()
 
-    player_turn = 1
+    player_turn = 0
+
     while referee.check_victory() is None:
         reset_screen(board)
-        if player_turn == 1:
-            p1_command = input("P1 Turn: ")
-            if p1_command.lower() == "clear":
-                board.clear_board()
-                continue
-            player1.drop(board, int(p1_command))
-            player_turn = 2
+        player_command = input(f"{players[player_turn]._player_name}'s turn: ")
+        if player_command.lower() == "clear":
+            board.clear_board()
+            player_turn = 0
             continue
-        elif player_turn == 2:
-            p2_command = input("P2 Turn: ")
-            if p2_command.lower() == "clear":
-                board.clear_board()
-                continue
-            player2.drop(board, int(p2_command))
-            player_turn = 1
-            continue
+        players[player_turn].drop(board, int(player_command))
+        player_turn = int(not player_turn)
+        continue
+
     reset_screen(board)
     print(f"{referee.check_victory()} wins the match!")

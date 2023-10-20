@@ -1,32 +1,10 @@
 import numpy as np
 from colorama import Fore
 import colorama
+from termcolor import colored
 
 
 colorama.init(autoreset=True)
-
-class Board:
-    def __init__(self):
-        self._array = np.array([[0 for i in range(7)] for i in range(6)])
-        self._edge = "+===" *7 + "+"
-        self._divider = "+---"*7 + "+"
-        self._column = [f"  {i+1} " for i in range(7)]
-
-    def display(self):
-        print(f"{Fore.RED}        COLUMN NUMBER        ")
-        print(*self._column, sep="")
-        for row in self._array:
-            print(self._divider)
-            for index, slot in enumerate(row):
-                if index < 6:
-                    print(f"| {slot} ".replace("0", " "), end="")
-                else: 
-                    print(f"| {slot} |".replace("0", " "))
-        print(self._edge)
-
-    def clear_board(self):
-        self._array = np.array([[0 for i in range(7)] for i in range(6)])
-
 
 class Piece:
     def __init__(self, player_name, color, piece_type, player):
@@ -43,6 +21,33 @@ class Piece:
                 print("No more space to drop!")
                 return "Illegal move"
         board._array[row, column - 1] = self._player
+        
+class Board:
+    def __init__(self, players):
+        self._array = np.array([[0 for i in range(7)] for i in range(6)])
+        self._edge = "+===" *7 + "+"
+        self._divider = "+---"*7 + "+"
+        self._column = [f"  {i+1} " for i in range(7)]
+        self._piece_type1 = players[0]._piece_type
+        self._piece_type2 = players[1]._piece_type
+        self._color1 = players[0]._color.lower()
+        self._color2 = players[1]._color.lower()
+
+    def display(self):
+        print(f"{Fore.RED}        COLUMN NUMBER        ")
+        print(*self._column, sep="")
+        for row in self._array:
+            print(self._divider)
+            for index, slot in enumerate(row):
+                if index < 6:
+                    print(f"| {slot} ".replace("0", " ").replace("1", colored(self._piece_type1, (self._color1))).replace("2", colored(self._piece_type2, (self._color2))), end="")
+                else: 
+                    print(f"| {slot} |".replace("0", " "))
+        print(self._edge)
+
+    def clear_board(self):
+        self._array = np.array([[0 for i in range(7)] for i in range(6)])
+
 
 
 
