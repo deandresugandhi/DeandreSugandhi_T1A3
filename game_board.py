@@ -13,6 +13,22 @@ class Piece:
         self._piece_type = piece_type
         self._player = player
     
+    @property
+    def color(self):
+        return self._color.lower()
+    
+    @color.setter
+    def color(self, color):
+        self._color = color
+    
+    @property
+    def piece_type(self):
+        return self._piece_type
+    
+    @piece_type.setter
+    def piece_type(self, piece_type):
+        self._piece_type = piece_type
+
     def drop(self, board, column):
         row = -1
         while board._array[row, column - 1] != 0:
@@ -21,7 +37,8 @@ class Piece:
                 print("No more space to drop!")
                 return "Illegal move"
         board._array[row, column - 1] = self._player
-        
+
+
 class Board:
     def __init__(self, players):
         self._array = np.array([[0 for i in range(7)] for i in range(6)])
@@ -30,8 +47,8 @@ class Board:
         self._column = [f"  {i+1} " for i in range(7)]
         self._piece_type1 = players[0]._piece_type
         self._piece_type2 = players[1]._piece_type
-        self._color1 = players[0]._color.lower()
-        self._color2 = players[1]._color.lower()
+        self._color1 = players[0]._color
+        self._color2 = players[1]._color
 
     def display(self):
         print(f"{Fore.RED}        COLUMN NUMBER        ")
