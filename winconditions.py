@@ -24,7 +24,7 @@ def diagonal_victory(board, piece1, piece2):
         for i_column in range(4):
             if all(board._array[i + i_row, i + i_column] for i in range(4)):
                 return f"{piece1._player_name} wins"
-            elif all(slot > 1 for slot in (board._array[i, i + i_column] for i in range(4))):
+            elif all(slot > 1 for slot in (board._array[i + i_row, i + i_column] for i in range(4))):
                 return f"{piece2._player_name} wins"
             else:
                 continue
@@ -32,7 +32,7 @@ def diagonal_victory(board, piece1, piece2):
         for i_column in range(4):
             if all(board._array[i + i_row, (3 + i_column) - i] for i in range(4)):
                 return f"{piece1._player_name} wins"
-            if all(slot > 1 for slot in (board._array[i, (3 + i_column) - i] for i in range(4))):
+            if all(slot > 1 for slot in (board._array[i + i_row, (3 + i_column) - i] for i in range(4))):
                 return f"{piece2._player_name} wins"
             else:
                 continue
