@@ -2,7 +2,7 @@ from game_board import Board
 from win_conditions import VictoryChecker
 import subprocess
 
-def game_start(board, players, referee):
+def game_in_progress(board, players, referee):
     def clear_screen():
         try:
             subprocess.run("cls", shell=True, check=True)
@@ -25,12 +25,22 @@ def game_start(board, players, referee):
             continue
         elif player_command.lower() == "surrender":
             players[player_turn].surrender = True
-            player_turn = int(not player_turn)
-            continue
+            reset_screen(board)
+            return referee.check_victory(), players[player_turn]._player_name
         players[player_turn].drop(board, int(player_command))
         player_turn = int(not player_turn)
         move_count += 1
         continue
-
     reset_screen(board)
-    print(f"{referee.check_victory()} wins the match!") if move_count < 42 else print("Game Draw!")
+    return referee.check_victory(), None
+
+
+def game_complete(game_result):
+    winner, surrendered = game_result
+    if winner is None and surrendered is None:
+        print("Game Draw!")
+    else:
+        if surrendered is not None:
+            print(f"{game_result[1]} surrendered!") 
+        print(f"{game_result[0]} wins!")
+

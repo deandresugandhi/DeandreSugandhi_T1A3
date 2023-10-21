@@ -1,6 +1,6 @@
 from game_board import Board, Piece
 from win_conditions import VictoryChecker
-from game_engine import game_start
+from game_engine import game_in_progress, game_complete
 import colorama
 
 player1 = Piece("Player 1","red", "O", "1")
@@ -12,6 +12,7 @@ referee = VictoryChecker(board, player1, player2)
 
 player1.color = "yellow" 
 
-game_start(board, players, referee)
+game_result = game_in_progress(board, players, referee)
+game_complete(game_result)
 
 

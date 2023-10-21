@@ -38,7 +38,6 @@ class VictoryChecker:
             return self._piece1._player_name
         return None
 
-
     def check_victory(self):
         winner = self.horizontal_victory() or self.vertical_victory() or self.diagonal_victory() or self.surrender()
         if winner is not None:
