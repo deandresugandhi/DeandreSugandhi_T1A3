@@ -50,8 +50,8 @@ class Board:
     def display(self):
         piece_dict = {
             0: " ",
-            1: colored(players[0].piece_type, players[0].color),
-            2: colored(players[1].piece_type, players[1].color),
+            1: colored(self._players[0].piece_type, self._players[0].color),
+            2: colored(self._players[1].piece_type, self._players[1].color),
         }
         print(f"{Fore.RED}        COLUMN NUMBER        ")
         print(*self._column, sep="")

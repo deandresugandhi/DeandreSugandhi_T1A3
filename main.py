@@ -11,7 +11,7 @@ board = Board(players)
 referee = VictoryChecker(board, player1, player2)
 
 
-player1.color = "green" 
+player1.color = "yellow" 
 
 game_start(board, players, referee)
 
