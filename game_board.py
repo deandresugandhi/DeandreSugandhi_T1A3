@@ -12,6 +12,7 @@ class Piece:
         self._color = color
         self._piece_type = piece_type
         self._player = player
+        self._surrender = False
     
     @property
     def color(self):
@@ -28,6 +29,14 @@ class Piece:
     @piece_type.setter
     def piece_type(self, piece_type):
         self._piece_type = piece_type
+
+    @property
+    def surrender(self):
+        return self._surrender
+    
+    @surrender.setter
+    def surrender(self, surrender):
+        self._surrender = surrender
 
     def drop(self, board, column):
         row = -1

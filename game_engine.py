@@ -23,6 +23,10 @@ def game_start(board, players, referee):
             board.clear_board()
             player_turn = 0
             continue
+        elif player_command.lower() == "surrender":
+            players[player_turn].surrender = True
+            player_turn = int(not player_turn)
+            continue
         players[player_turn].drop(board, int(player_command))
         player_turn = int(not player_turn)
         move_count += 1

@@ -30,9 +30,17 @@ class VictoryChecker:
                 elif all(self._board.array[i + i_row, i + i_column] == 2 for i in range(4)) or all(self._board.array[i + i_row, (3 + i_column) - i] == 2 for i in range(4)):
                     return self._piece2._player_name
         return None
+    
+    def surrender(self):
+        if self._piece1.surrender:
+            return self._piece2._player_name
+        elif self._piece2.surrender:
+            return self._piece1._player_name
+        return None
+
 
     def check_victory(self):
-        winner = self.horizontal_victory() or self.vertical_victory() or self.diagonal_victory()
+        winner = self.horizontal_victory() or self.vertical_victory() or self.diagonal_victory() or self.surrender()
         if winner is not None:
             return winner
         return None
