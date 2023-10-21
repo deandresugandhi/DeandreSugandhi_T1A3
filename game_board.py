@@ -47,6 +47,10 @@ class Board:
         self._column = [f"  {i+1} " for i in range(7)]
         self._players = players
 
+    @property
+    def array(self):
+        return self._array
+
     def display(self):
         piece_dict = {
             0: " ",

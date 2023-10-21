@@ -14,8 +14,9 @@ def game_start(board, players, referee):
         board.display()
 
     player_turn = 0
+    move_count = 0
 
-    while referee.check_victory() is None:
+    while referee.check_victory() is None and move_count < 42:
         reset_screen(board)
         player_command = input(f"{players[player_turn]._player_name}'s turn: ")
         if player_command.lower() == "clear":
@@ -24,7 +25,8 @@ def game_start(board, players, referee):
             continue
         players[player_turn].drop(board, int(player_command))
         player_turn = int(not player_turn)
+        move_count += 1
         continue
 
     reset_screen(board)
-    print(f"{referee.check_victory()} wins the match!")
+    print(f"{referee.check_victory()} wins the match!") if move_count < 42 else print("Game Draw!")
