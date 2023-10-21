@@ -1,12 +1,17 @@
 from game_board import Board, Piece
 from win_conditions import VictoryChecker
 from game_engine import game_start
+import colorama
+from termcolor import colored
 
-player1 = Piece("Foo","red", "O", "1")
-player2 = Piece("Bar","blue", "X", "2")
+player1 = Piece("Player 1","red", "O", "1")
+player2 = Piece("Player 2","blue", "X", "2")
 players = [player1, player2]
 board = Board(players)
 referee = VictoryChecker(board, player1, player2)
+
+
+player1.color = "green" 
 
 game_start(board, players, referee)
 

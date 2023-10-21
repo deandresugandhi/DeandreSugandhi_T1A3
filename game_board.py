@@ -45,28 +45,24 @@ class Board:
         self._edge = "+===" *7 + "+"
         self._divider = "+---"*7 + "+"
         self._column = [f"  {i+1} " for i in range(7)]
-        self._piece_type1 = players[0]._piece_type
-        self._piece_type2 = players[1]._piece_type
-        self._color1 = players[0]._color
-        self._color2 = players[1]._color
+        self._players = players
 
     def display(self):
+        piece_dict = {
+            0: " ",
+            1: colored(players[0].piece_type, players[0].color),
+            2: colored(players[1].piece_type, players[1].color),
+        }
         print(f"{Fore.RED}        COLUMN NUMBER        ")
         print(*self._column, sep="")
         for row in self._array:
             print(self._divider)
             for index, slot in enumerate(row):
                 if index < 6:
-                    print(f"| {slot} ".replace("0", " ").replace("1", colored(self._piece_type1, (self._color1))).replace("2", colored(self._piece_type2, (self._color2))), end="")
+                    print(f"| {piece_dict.get(slot)} ", end="")
                 else: 
-                    print(f"| {slot} |".replace("0", " "))
+                    print(f"| {piece_dict.get(slot)} |")
         print(self._edge)
 
     def clear_board(self):
         self._array = np.array([[0 for i in range(7)] for i in range(6)])
-
-
-
-
-
-
