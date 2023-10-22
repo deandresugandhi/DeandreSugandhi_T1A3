@@ -3,13 +3,16 @@ import subprocess
 import json
 import colorama
 from termcolor import colored
+from game_engine import clear_screen
 
-def clear_screen():
-    try:
-        subprocess.run("cls", shell=True, check=True)
-    except subprocess.CalledProcessError:
-        subprocess.run("clear", shell=True, check=True)
-
+def update_properties(piece, user, details):
+    piece.player_name = details.get("username")
+    piece.color = details.get("color")
+    piece.piece_type = details.get("piece_type")
+    user.games_played = details.get("games_played")
+    user.wins = details.get("wins") 
+    user.losses = details.get("losses")
+    user.win_ratio = details.get("win_ratio")
 
 def game_setup(player, user):
     def validate_input(prompt, match, message="Invalid input, please try again: "):
@@ -70,15 +73,6 @@ def game_setup(player, user):
             json.dump(users, file, indent=4)
         
         return user_data
-    
-    def update_properties(piece, user, details):
-        piece.player_name = details.get("username")
-        piece.color = details.get("color")
-        piece.piece_type = details.get("piece_type")
-        user.games_played = details.get("games_played")
-        user.wins = details.get("wins") 
-        user.losses = details.get("losses")
-        user.win_ratio = details.get("win_ratio")
 
     def validate_account(username, pin):
         with open("users.json", "r") as file:

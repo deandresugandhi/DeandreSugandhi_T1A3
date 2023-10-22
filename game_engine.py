@@ -1,18 +1,20 @@
-from game_board import Board
+from game_board import Board, Piece
 from win_conditions import VictoryChecker
+from user_utils import User
 import subprocess
 
+
+def clear_screen():
+    try:
+        subprocess.run("cls", shell=True, check=True)
+    except subprocess.CalledProcessError:
+        subprocess.run("clear", shell=True, check=True)
+
+def reset_screen(board):
+    clear_screen()
+    board.display()
+
 def game_in_progress(board, players, referee):
-    def clear_screen():
-        try:
-            subprocess.run("cls", shell=True, check=True)
-        except subprocess.CalledProcessError:
-            subprocess.run("clear", shell=True, check=True)
-
-    def reset_screen(board):
-        clear_screen()
-        board.display()
-
     player_turn = 0
     move_count = 0
 
@@ -26,7 +28,7 @@ def game_in_progress(board, players, referee):
         elif player_command.lower() == "surrender":
             players[player_turn].surrender = True
             reset_screen(board)
-            return referee.check_victory(), players[player_turn]._player_name
+            return referee.check_victory(), players[player_turn]
         players[player_turn].drop(board, int(player_command))
         player_turn = int(not player_turn)
         move_count += 1
@@ -35,12 +37,20 @@ def game_in_progress(board, players, referee):
     return referee.check_victory(), None
 
 
-def game_complete(game_result):
+def game_complete(game_result, users):
     winner, surrendered = game_result
-    if winner is None and surrendered is None:
+    if winner is None:
         print("Game Draw!")
     else:
         if surrendered is not None:
-            print(f"{game_result[1]} surrendered!") 
-        print(f"{game_result[0]} wins!")
+            print(f"{surrendered.player_name} surrendered!") 
+        print(f"{winner.player_name} wins!")
+        
+    users[0].update_game_history(winner)
+    users[1].update_game_history(winner)
+    
+
+    
+
+
 
