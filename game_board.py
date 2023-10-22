@@ -12,7 +12,7 @@ class Piece:
         self._color = color
         self._piece_type = piece_type
         self._player = player
-        self._surrender = False
+        self.surrender = False
     
     @property
     def player_name(self):

@@ -11,8 +11,7 @@ def clear_screen():
         subprocess.run("clear", shell=True, check=True)
 
 
-def game_setup(player):
-
+def game_setup(player, user):
     def validate_input(prompt, match, message="Invalid input, please try again: "):
         user_input = input(prompt)
         while True:
@@ -54,13 +53,13 @@ def game_setup(player):
         user_data = {
             "username": username,
             "pin": pin,
-            "games-played": 0,
+            "games_played": 0,
             "wins": 0,
             "losses": 0,
-            "win-ratio": 0,
+            "win_ratio": 0,
             "color": color,
             "piece_type": piece_type,
-            "logged_in": False
+            "logged_in": "y"
         }
         with open("users.json", "r") as file:
             users = json.load(file)
@@ -69,19 +68,28 @@ def game_setup(player):
 
         with open("users.json", "w") as file:
             json.dump(users, file, indent=4)
+        
+        return user_data
     
+    def update_properties(piece, user, details):
+        piece.player_name = details.get("username")
+        piece.color = details.get("color")
+        piece.piece_type = details.get("piece_type")
+        user.games_played = details.get("games_played")
+        user.wins = details.get("wins") 
+        user.losses = details.get("losses")
+        user.win_ratio = details.get("win_ratio")
 
     def validate_account(username, pin):
         with open("users.json", "r") as file:
             users = json.load(file)
         for user in users:
-            if username == user.get("username"):
-                if pin == user["pin"]:
-                    user["logged_in"] = True 
-                    return user
+            if username == user.get("username") and pin == user.get("pin") and user.get("logged_in") == "n":
+                user["logged_in"] = "y"
+                with open("users.json", "r") as file:
+                    users = json.load(file) 
+                return user
         return None
-
-
 
     is_existing_user = validate_input(
         (f"Player {player.player}! Are you an existing user? (y / n): "),
@@ -134,10 +142,8 @@ def game_setup(player):
                 "Invalid piece type, please try again: "
             )
 
-            store_account(new_username, new_pin, new_player_color, new_player_piece_type)
-            player.player_name = new_username
-            player.color = new_player_color
-            player.piece_type = new_player_piece_type
+            account_details = store_account(new_username, new_pin, new_player_color, new_player_piece_type)
+            update_properties(player, user, account_details)
 
             print(f"Your account has been created! You will be playing as {new_username}")
 
@@ -154,9 +160,7 @@ def game_setup(player):
             if account_details == None:
                 print("Invalid username or PIN. Please try again.")
             else:
-                player.player_name = account_details.get("username")
-                player.color = account_details.get("color")
-                player.piece_type = account_details.get("piece_type")
+                update_properties(player, user, account_details)
                 print(f"Successfully logged in! You will be playing as {colored(player.player_name, player.color)}.")
                 break
             

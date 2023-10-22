@@ -6,6 +6,8 @@ from start_menu import game_setup
 player1 = Piece("Player1","white", "O", "1")
 player2 = Piece("Player2","white", "X", "2")
 players = [player1, player2]
+user1 = User("Guest", )
+user2 = User()
 board = Board(players)
 referee = VictoryChecker(board, player1, player2)
 
