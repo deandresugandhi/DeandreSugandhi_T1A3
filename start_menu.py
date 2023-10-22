@@ -69,11 +69,14 @@ def validate_account(username, pin):
     with open("users.json", "r") as file:
         users = json.load(file)
     for user in users:
-        if username == user.get("username") and pin == user.get("pin") and user.get("logged_in") == "n":
-            user["logged_in"] = "y"
-            with open("users.json", "r") as file:
-                users = json.load(file) 
-            return user
+        if username == user.get("username") and pin == user.get("pin"):
+            if user.get("logged_in") == "y":
+                return "Duplicate"
+            else:
+                user["logged_in"] = "y"
+                with open("users.json", "w") as file:
+                    json.dump(users, file, indent=4) 
+                return user
     return None
 
 def game_setup(player, user):
@@ -145,6 +148,8 @@ def game_setup(player, user):
 
             if account_details == None:
                 print("Invalid username or PIN. Please try again: ")
+            elif account_details == "Duplicate":
+                print(f"{existing_username} is already logged in. Please try again: ")
             else:
                 update_attributes(player, user, account_details)
                 print(f"Successfully logged in! You will be playing as {colored(player.player_name, player.color)}.")

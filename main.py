@@ -2,7 +2,10 @@ from game_board import Board, Piece
 from win_conditions import VictoryChecker
 from game_engine import game_in_progress, game_complete, game_reset
 from start_menu import game_setup, game_start
-from user_utils import User
+from user_utils import User, reset_login
+import atexit
+
+reset_login()
 
 player1 = Piece("Player1","white", "O", "1")
 player2 = Piece("Player2","white", "X", "2")
@@ -26,4 +29,5 @@ while True:
     else:
         break
 
+atexit.register(reset_login)
 

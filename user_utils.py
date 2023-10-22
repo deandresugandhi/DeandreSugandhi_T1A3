@@ -79,9 +79,10 @@ class User:
     def update_game_history(self, winner):
         if self.username.lower() != "guest":
             self.games_played += 1
-            self.wins += 1 if winner.player_name == self.username else 0
-            self.losses += 0 if winner == None else 1
-            self.win_ratio = self.wins / self.losses
+            if winner != None:
+                self.wins += 1 if winner.player_name == self.username else 0
+                self.losses += 0 if winner.player_name == self.username else 1
+                self.win_ratio = self.wins / self.losses
 
             with open("users.json", "r") as file:
                 users = json.load(file)
