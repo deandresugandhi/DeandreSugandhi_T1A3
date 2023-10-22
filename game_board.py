@@ -20,10 +20,10 @@ class Piece:
     
     @player_name.setter
     def player_name(self, player_name): 
-        if re.fullmatch("^[a-zA-Z0-9][a-zA-Z0-9._-]{3, 18}[a-zA-Z0-9]$", player_name):
+        if re.fullmatch("^[a-zA-Z0-9][a-zA-Z0-9._-]{3,18}[a-zA-Z0-9]$", player_name):
             self._player_name = player_name
         else:
-            raise ValueError("Invalid name. Please try again.")
+            raise ValueError("Invalid name.")
         
     @property
     def color(self):
@@ -34,12 +34,9 @@ class Piece:
         try:
             colored("test", color)
         except KeyError:
-            raise ValueError("Invalid color. Please try again.")
+            raise ValueError("Invalid color.")
         else:
-            if color.lower() == "white":
-                raise ValueError("Invalid color. Please try again.")
-            else:
-                self._color = color.lower()
+            self._color = color.lower()
     
     @property
     def piece_type(self):
