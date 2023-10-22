@@ -40,7 +40,10 @@ class Piece:
     
     @piece_type.setter
     def piece_type(self, piece_type):
-        self._piece_type = piece_type
+        if re.fullmatch("^[a-zA-Z0-9]$", piece_type):
+            self._piece_type = piece_type
+        else:
+            raise ValueError("Invalid piece type. Please try again.")
 
     @property
     def player(self):
