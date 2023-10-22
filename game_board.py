@@ -2,6 +2,7 @@ import numpy as np
 from colorama import Fore
 import colorama
 from termcolor import colored
+import re
 
 
 colorama.init(autoreset=True)
@@ -14,6 +15,17 @@ class Piece:
         self._player = player
         self._surrender = False
     
+    @property
+    def player_name(self):
+        return self._player_name
+    
+    @player_name.setter
+    def player_name(self, player_name): 
+        if re.fullmatch("^[a-zA-Z0-9][a-zA-Z0-9._-]{3, 18}[a-zA-Z0-9]$", player_name):
+            self._player_name = player_name
+        else:
+            raise ValueError("Invalid username. Please try again.")
+        
     @property
     def color(self):
         return self._color.lower()
@@ -29,6 +41,10 @@ class Piece:
     @piece_type.setter
     def piece_type(self, piece_type):
         self._piece_type = piece_type
+
+    @property
+    def player(self):
+        return self._player
 
     @property
     def surrender(self):
