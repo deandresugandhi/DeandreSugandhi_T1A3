@@ -1,5 +1,4 @@
 import numpy as np
-from colorama import Fore
 import colorama
 from termcolor import colored
 import re
@@ -24,7 +23,7 @@ class Piece:
         if re.fullmatch("^[a-zA-Z0-9][a-zA-Z0-9._-]{3, 18}[a-zA-Z0-9]$", player_name):
             self._player_name = player_name
         else:
-            raise ValueError("Invalid username. Please try again.")
+            raise ValueError("Invalid name. Please try again.")
         
     @property
     def color(self):
@@ -32,7 +31,15 @@ class Piece:
     
     @color.setter
     def color(self, color):
-        self._color = color
+        try:
+            colored("test", color)
+        except KeyError:
+            raise ValueError("Invalid color. Please try again.")
+        else:
+            if color.lower() == "white":
+                raise ValueError("Invalid color. Please try again.")
+            else:
+                self._color = color.lower()
     
     @property
     def piece_type(self):
@@ -85,7 +92,7 @@ class Board:
             1: colored(self._players[0].piece_type, self._players[0].color),
             2: colored(self._players[1].piece_type, self._players[1].color),
         }
-        print(f"{Fore.RED}        COLUMN NUMBER        ")
+        print(colored("        COLUMN NUMBER        ", "red"))
         print(*self._column, sep="")
         for row in self._array:
             print(self._divider)

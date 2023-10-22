@@ -2,8 +2,8 @@ from game_board import Board, Piece
 from win_conditions import VictoryChecker
 from game_engine import game_in_progress, game_complete
 
-player1 = Piece("Player1","red", "O", "1")
-player2 = Piece("Player2","blue", "X", "2")
+player1 = Piece("Player1","white", "O", "1")
+player2 = Piece("Player2","white", "X", "2")
 players = [player1, player2]
 board = Board(players)
 referee = VictoryChecker(board, player1, player2)
