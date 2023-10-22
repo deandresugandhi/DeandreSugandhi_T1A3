@@ -1,18 +1,5 @@
-from game_board import Board, Piece
-from win_conditions import VictoryChecker
-from user_utils import User
-import subprocess
+from utilities import clear_screen, reset_screen, validate_input
 
-
-def clear_screen():
-    try:
-        subprocess.run("cls", shell=True, check=True)
-    except subprocess.CalledProcessError:
-        subprocess.run("clear", shell=True, check=True)
-
-def reset_screen(board):
-    clear_screen()
-    board.display()
 
 def game_in_progress(board, players, referee):
     player_turn = 0
@@ -48,6 +35,15 @@ def game_complete(game_result, users):
         
     users[0].update_game_history(winner)
     users[1].update_game_history(winner)
+
+    play_again = validate_input("Play again? (y / n): ","^[yn]$")
+    return play_again
+
+def game_reset(board, players):
+    board.clear_board()
+    players[0].surrender = False
+    players[1].surrender = False
+
     
 
     

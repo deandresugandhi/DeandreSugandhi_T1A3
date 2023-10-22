@@ -3,88 +3,80 @@ import subprocess
 import json
 import colorama
 from termcolor import colored
-from game_engine import clear_screen
+from utilities import clear_screen, reset_screen, validate_input
 
-def update_properties(piece, user, details):
+def update_attributes(piece, user, details):
     piece.player_name = details.get("username")
     piece.color = details.get("color")
     piece.piece_type = details.get("piece_type")
+    user.username = details.get("username")
     user.games_played = details.get("games_played")
     user.wins = details.get("wins") 
     user.losses = details.get("losses")
     user.win_ratio = details.get("win_ratio")
 
-def game_setup(player, user):
-    def validate_input(prompt, match, message="Invalid input, please try again: "):
-        user_input = input(prompt)
-        while True:
-            if re.fullmatch(match, user_input):
-                clear_screen()
-                return user_input
-            else:
-                user_input = input(message)
+def validate_color(prompt):
+    user_input = input(prompt)
+    while True:
+        try:
+            colored("test", user_input)
+        except:
+            user_input = input("Invalid color, please try again: ")
+        else:
+            return user_input
 
-    def validate_color(prompt):
-        user_input = input(prompt)
-        while True:
-            try:
-                colored("test", user_input)
-            except:
-                user_input = input("Invalid color, please try again: ")
-            else:
-                return user_input
+def validate_username(prompt, match):
+    user_input = input(prompt)
+    with open("users.json", "r") as file:
+        users = json.load(file)
 
-    def validate_username(prompt, match):
-        user_input = input(prompt)
-        with open("users.json", "r") as file:
-            users = json.load(file)
-    
-        while True:
-            if not re.fullmatch(match, user_input):
-                user_input = input("Invalid username, please try again: ")
-                continue
+    while True:
+        if not re.fullmatch(match, user_input):
+            user_input = input("Invalid username, please try again: ")
+            continue
 
-            for user in users:
-                if user_input == user.get("username"):
-                    user_input = input(f"Username {user_input} is taken, please try again: ")
-                    break
-            else:
-                clear_screen()
-                return user_input
-            
-    def store_account(username, pin, color, piece_type):
-        user_data = {
-            "username": username,
-            "pin": pin,
-            "games_played": 0,
-            "wins": 0,
-            "losses": 0,
-            "win_ratio": 0,
-            "color": color,
-            "piece_type": piece_type,
-            "logged_in": "y"
-        }
-        with open("users.json", "r") as file:
-            users = json.load(file)
-
-        users.append(user_data)
-
-        with open("users.json", "w") as file:
-            json.dump(users, file, indent=4)
-        
-        return user_data
-
-    def validate_account(username, pin):
-        with open("users.json", "r") as file:
-            users = json.load(file)
         for user in users:
-            if username == user.get("username") and pin == user.get("pin") and user.get("logged_in") == "n":
-                user["logged_in"] = "y"
-                with open("users.json", "r") as file:
-                    users = json.load(file) 
-                return user
-        return None
+            if user_input == user.get("username"):
+                user_input = input(f"Username {user_input} is taken, please try again: ")
+                break
+        else:
+            clear_screen()
+            return user_input
+        
+def store_account(username, pin, color, piece_type):
+    user_data = {
+        "username": username,
+        "pin": pin,
+        "games_played": 0,
+        "wins": 0,
+        "losses": 0,
+        "win_ratio": 0,
+        "color": color,
+        "piece_type": piece_type,
+        "logged_in": "y"
+    }
+    with open("users.json", "r") as file:
+        users = json.load(file)
 
+    users.append(user_data)
+
+    with open("users.json", "w") as file:
+        json.dump(users, file, indent=4)
+    
+    return user_data
+
+def validate_account(username, pin):
+    with open("users.json", "r") as file:
+        users = json.load(file)
+    for user in users:
+        if username == user.get("username") and pin == user.get("pin") and user.get("logged_in") == "n":
+            user["logged_in"] = "y"
+            with open("users.json", "r") as file:
+                users = json.load(file) 
+            return user
+    return None
+
+def game_setup(player, user):
     is_existing_user = validate_input(
         (f"Player {player.player}! Are you an existing user? (y / n): "),
         "^[yn]$"
@@ -137,7 +129,7 @@ def game_setup(player, user):
             )
 
             account_details = store_account(new_username, new_pin, new_player_color, new_player_piece_type)
-            update_properties(player, user, account_details)
+            update_attributes(player, user, account_details)
 
             print(f"Your account has been created! You will be playing as {new_username}")
 
@@ -145,17 +137,21 @@ def game_setup(player, user):
         elif account_type.lower() == "guest":
             print(f"Using guest account. You will be playing as {player.player_name}.")
 
-    elif is_existing_user.lower() == "y":
+    else:
         while True:
             existing_username = input("Enter your username: ")
             existing_pin = input("Enter your PIN: ")
             account_details = validate_account(existing_username, existing_pin)
 
             if account_details == None:
-                print("Invalid username or PIN. Please try again.")
+                print("Invalid username or PIN. Please try again: ")
             else:
-                update_properties(player, user, account_details)
+                update_attributes(player, user, account_details)
                 print(f"Successfully logged in! You will be playing as {colored(player.player_name, player.color)}.")
                 break
-            
+    
+def game_start(players):
+    clear_screen()
+    ready = input(f"{colored(players[0].player_name, players[0].color)} and {colored(players[1].player_name, players[1].color)}, press enter when ready! ")
+
 

@@ -1,7 +1,7 @@
 import json
 import re
 import atexit
-from game_engine import clear_screen
+from utilities import clear_screen
 
 def reset_login():
     with open("users.json", "r") as file:
@@ -77,15 +77,35 @@ class User:
         self._win_ratio = float(win_ratio)
         
     def update_game_history(self, winner):
-        self.games_played += 1
-        self.wins += 1 if winner.player_name == self.username else 0
-        self.losses += 0 if winner == None else 1
-        self.win_ratio = self.wins / self.losses 
+        if self.username.lower() != "guest":
+            self.games_played += 1
+            self.wins += 1 if winner.player_name == self.username else 0
+            self.losses += 0 if winner == None else 1
+            self.win_ratio = self.wins / self.losses
+
+            with open("users.json", "r") as file:
+                users = json.load(file)
+
+            for user in users:
+                if user["username"] == self.username:
+                    user["games_played"] = self.games_played
+                    user["wins"] = self.wins
+                    user["losses"] = self.losses
+                    user["win_ratio"] = self.win_ratio
+                    break
+
+            with open("users.json", "w") as file:
+                json.dump(users, file, indent=4)
+        else:
+            pass
 
     def display(self):
-        print(f"{self.username}'s stats:")
-        print(f"Games played: {self.games_played}")
-        print(f"Wins: {self.wins}")
-        print(f"Losses: {self.losses}")
-        print(f"Win ratio: {self.win_ratio}")
+        if self.username.lower() != "guest":
+            print(f"{self.username}'s stats:")
+            print(f"Games played: {self.games_played}")
+            print(f"Wins: {self.wins}")
+            print(f"Losses: {self.losses}")
+            print(f"Win ratio: {self.win_ratio}")
+        else:
+            print("You are using a guest account!")
 
