@@ -1,6 +1,8 @@
 import re
 import subprocess
 import json
+import colorama
+from termcolor import colored
 
 def validate_input(prompt, match = ".*", message = "Invalid input, please try again."):
     while True:
@@ -12,8 +14,8 @@ def validate_input(prompt, match = ".*", message = "Invalid input, please try ag
             if re.fullmatch(match, user_input):
                 return user_input
             print(message)
-
         
+
 def game_setup(player):
     def clear_screen():
         try:
@@ -34,13 +36,23 @@ def game_setup(player):
         }
         with open("users.json", "a") as file:
             json.dump(user_data, file)
+    
+    def validate_account(username, pin):
+        with open("users.json", "r") as file:
+            users = json.load(file)
+        for user in users:
+            if username == user.get("username"):
+                if pin == user["pin"]:
+                    return user
+        return None
 
-    existing_user = validate_input(
-        (f"Player {player.player}! Are you an existing user? (y / n)",
-        "^[yn]$"),
+
+    is_existing_user = validate_input(
+        (f"Player {player.player}! Are you an existing user? (y / n)"),
+        "^[yn]$"
     )
 
-    if existing_user.lower() == "n":
+    if is_existing_user.lower() == "n":
         account_type = validate_input(
             ("Do you want to create a new account or use a guest account?\n"
             "Note: Create an account if you want to be recorded in the high-score board, "
@@ -85,23 +97,28 @@ def game_setup(player):
             )
             new_player_piece_type = player.piece_type
 
+            store_account(new_username, new_pin, new_player_color, new_player_piece_type)
+
             print(f"Your account has been created! You will be playing as {new_username}")
 
         
         elif account_type.lower() == "guest":
-            print(f"You will be playing as a guest. Your name is {player.player_name}.")
+            print(f"Using guest account. You will be playing as {player.player_name}.")
 
+    elif is_existing_user.lower() == "y":
+        account_found = False
+        while account_found == False:
+            existing_username = input("Enter your username: ")
+            existing_pin = input("Enter your PIN: ")
+            account_details = validate_account(existing_username, existing_pin)
 
-    elif existing_user == "existing":
-        existing_username = validate_input(
-            "Please enter your username: ",
-        )
+            if account_details == None:
+                print("Invalid username or PIN. Please try again.")
+            else:
+                player.player_name = account_details.get("username")
+                player.color = account_details.get("color")
+                player.piece_type = account_details.get("piece_type")
+                print(f"Successfully logged in! You will be playing as {colored({player.player_name}, {player.color})}.")
+                account_found = True
+            
 
-        existing_pin = validate_input(
-            "Please enter your PIN: ",
-        )
-
-
-    
-    elif player_status == "existing":
-        player.color = validate_input("Pick your piece color")
