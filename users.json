@@ -2,13 +2,13 @@
     {
         "username": "tester123",
         "pin": "1923",
-        "games_played": 17,
-        "wins": 10,
-        "losses": 9,
+        "games_played": 19,
+        "wins": 11,
+        "losses": 10,
         "win_ratio": 1.1,
         "color": "red",
         "piece_type": "M",
-        "logged_in": "y"
+        "logged_in": "n"
     },
     {
         "username": "tester321",
@@ -24,12 +24,12 @@
     {
         "username": "tester501",
         "pin": "1234",
-        "games_played": 1,
-        "wins": 0,
-        "losses": 1,
-        "win_ratio": 0.0,
+        "games_played": 3,
+        "wins": 1,
+        "losses": 2,
+        "win_ratio": 0.5,
         "color": "red",
         "piece_type": "H",
-        "logged_in": "y"
+        "logged_in": "n"
     }
 ]

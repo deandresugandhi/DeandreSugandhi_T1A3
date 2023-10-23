@@ -1,10 +1,7 @@
 import numpy as np
-import colorama
 from termcolor import colored
 import re
-
-
-colorama.init(autoreset=True)
+import art
 
 class Piece:
     def __init__(self, player_name, color, piece_type, player):
@@ -63,7 +60,7 @@ class Piece:
 
     def drop(self, board, column):
         row = -1
-        while board._array[row, column - 1] != 0:
+        while board._array[row, column - 1] != "0":
             row -= 1
             if row < -6:
                 print("No more space to drop!")
@@ -73,7 +70,7 @@ class Piece:
 
 class Board:
     def __init__(self, players):
-        self._array = np.array([[0 for i in range(7)] for i in range(6)])
+        self._array = np.array([["0" for i in range(7)] for i in range(6)])
         self._edge = "+===" *7 + "+"
         self._divider = "+---"*7 + "+"
         self._column = [f"  {i+1} " for i in range(7)]
@@ -85,20 +82,27 @@ class Board:
 
     def display(self):
         piece_dict = {
-            0: " ",
-            1: colored(self._players[0].piece_type, self._players[0].color),
-            2: colored(self._players[1].piece_type, self._players[1].color),
+            "0": " ",
+            "1": colored(self._players[0].piece_type, self._players[0].color),
+            "2": colored(self._players[1].piece_type, self._players[1].color),
         }
-        print(colored("\n" + "        COLUMN NUMBER        ", "white"))
-        print(colored("".join(self._column) + " ", "black", "on_white"))
+        logo = colored(art.text2art(f"CONNECT 4", font="small", space = 0), "light_grey")
+        print(logo[0:-10])
+        print(f"{self._players[0].player_name} = {piece_dict.get('1')}".center(58))
+        print(f"{self._players[1].player_name} = {piece_dict.get('2')}".center(58))
+        print(colored("\n" + "        COLUMN NUMBER        ".center(50), "white"))
+        print("          "+ colored("".join(self._column)+ " ", "black", "on_white"))
+
+        cage_row = ""
         for row in self._array:
-            print(self._divider)
-            for index, slot in enumerate(row):
-                if index < 6:
-                    print(f"| {piece_dict.get(slot)} ", end="")
-                else: 
-                    print(f"| {piece_dict.get(slot)} |")
-        print(self._edge)
+            print(self._divider.center(50))
+            for slot in row:
+                cage_row += f"| {piece_dict.get(slot)} " 
+            cage_row += "|"
+            print(" " * 10 + cage_row)
+            cage_row = ""
+        
+        print(self._edge.center(50))
 
     def clear_board(self):
         self._array = np.array([[0 for i in range(7)] for i in range(6)])

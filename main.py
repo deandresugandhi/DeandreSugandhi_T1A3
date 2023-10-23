@@ -4,6 +4,9 @@ from game_engine import game_in_progress, game_complete, game_reset
 from start_menu import game_setup, game_start, start_screen
 from user_utils import User, reset_login
 import atexit
+import colorama
+
+colorama.init(autoreset=True)
 
 reset_login()
 
@@ -30,5 +33,6 @@ while True:
     else:
         break
 
-atexit.register(reset_login)
+board.display()
 
+atexit.register(reset_login)

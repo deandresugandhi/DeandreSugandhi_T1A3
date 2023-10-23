@@ -1,6 +1,5 @@
 import re
 import json
-import colorama
 from termcolor import colored
 from utilities import clear_screen, validate_input
 import art
@@ -8,7 +7,7 @@ from maskpass import askpass
 
 def start_screen():
     clear_screen()
-    logo1 = colored(art.text2art("CONNECT", font="chunky", space = 0)[0:], "blue")
+    logo1 = colored(art.text2art("CONNECT", font="chunky", space = 0), "blue")
     logo2 = colored(art.text2art("FOUR", font="coinstak", space = 5)[0:-40], "red", attrs=["bold"])
     frame = colored("=" * 61, "yellow", attrs=["underline"])
     frame2 = colored('-' * 25, "yellow")
