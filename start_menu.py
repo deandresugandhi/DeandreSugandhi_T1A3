@@ -143,7 +143,8 @@ def game_setup(player, user):
                 "It can only contain a single uppercase (A-Z) or lowercase letter(a-z), or a single number(0-9).\n"
                 "Piece Type: "),
                 "^[a-zA-Z0-9]$",
-                "Invalid piece type, please try again: "
+                "Invalid piece type, please try again: ",
+                case_sensitive = True
             )
 
             account_details = store_account(new_username, new_pin, new_player_color, new_player_piece_type)
@@ -186,7 +187,8 @@ def game_start(players):
                 "Your piece type can only contain a single uppercase (A-Z) or lowercase letter(a-z), or a single number(0-9).\n"
                 "Piece Type: "),
                 "^[a-zA-Z0-9]$",
-                "Invalid piece type, please try again: "
+                "Invalid piece type, please try again: ",
+                case_sensitive = True
             )
 
             print(f"preview: {colored(player.piece_type, player.color)}")

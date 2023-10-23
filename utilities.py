@@ -13,12 +13,16 @@ def reset_screen(board):
     clear_screen()
     board.display()
 
-def validate_input(prompt, match, message="Invalid input, please try again: ", masked = False):
+def validate_input(prompt, match, message="Invalid input, please try again: ", masked = False, case_sensitive = False):
     user_input = input(prompt) if masked == False else askpass(prompt)
     while True:
-        if re.fullmatch(match, user_input):
-            clear_screen()
-            return user_input
+        if case_sensitive == False:
+            if re.fullmatch(match, user_input.lower()):
+                clear_screen()
+                return user_input
         else:
-            user_input = input(message) if masked == False else askpass(message)
+            if re.fullmatch(match, user_input):
+                clear_screen()
+                return user_input
+        user_input = input(message) if masked == False else askpass(message)
 

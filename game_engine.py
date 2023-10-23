@@ -21,7 +21,7 @@ def game_in_progress(board, players, referee):
         reset_screen(board)
         player_command = input(f"\n{colored(players[player_turn].player_name, players[player_turn].color)}'s turn: ")
         while True:
-            if re.fullmatch( "^([1-7]|clear|surrender)$", player_command):
+            if re.fullmatch("^([1-7]|clear|surrender)$", player_command.lower()):
                 if player_command.isdigit():
                     try:
                         players[player_turn].drop(board, int(player_command))

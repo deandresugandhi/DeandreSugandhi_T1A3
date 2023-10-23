@@ -1,5 +1,6 @@
 import json
 import operator
+from utilities import validate_input
 
 def generate_users_record():
     with open("users.json", "r") as file:
@@ -13,10 +14,31 @@ def generate_users_record():
 class PlayerLounge:
     def __init__(self, users_record):
         self._users_record = users_record
+        self._lounge = r"""
+  \_                                                _/
+    \_                                            _/
+      \                                      ____/
+       |                                    |
+       |______                        ______|
+       |      |\ ______      ______ /|      |      
+       |      | |      |    |      | |      |
+       |LOUNGE| |      |PLAY|      | | EXIT |
+       | <--- | |      |    |      | | ---> |
+       |      | |______|    |______| |      |       
+       |______|/                    \|______|
+       |                                    |
+   ____|                                    |___
+ _/                                             \_
+/                                                 \
+"""
 
     @property
     def users_record(self):
         return self._users_record
+
+    @property
+    def lounge(self):
+        return self._lounge
     
     def access_user_details(self, username):
         for user in self.users_record:
@@ -42,3 +64,11 @@ class PlayerLounge:
             count += 1
             if count == 5 or count == len(self.users_record):
                 break
+    
+    def display_lounge(self):
+        print(self.lounge)
+        validate_input(
+            "Welcome to the player lounge! Here you can customize your piece and access player information.\n"
+            "Please enter a command: ",
+            "^(high-score|customize|player-info)$"
+        )
