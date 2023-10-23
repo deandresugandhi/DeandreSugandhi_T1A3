@@ -18,7 +18,6 @@ def start_screen():
     input(f"{' ' * 16} Press Enter to continue!")
     clear_screen()
 
-
 def update_attributes(piece, user, details):
     piece.player_name = details.get("username")
     piece.color = details.get("color")

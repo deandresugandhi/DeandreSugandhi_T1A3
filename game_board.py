@@ -2,6 +2,7 @@ import numpy as np
 from termcolor import colored
 import re
 import art
+from custom_errors import ColumnFullError
 
 class Piece:
     def __init__(self, player_name, color, piece_type, player):
@@ -63,8 +64,7 @@ class Piece:
         while board._array[row, column - 1] != "0":
             row -= 1
             if row < -6:
-                print("No more space to drop!")
-                return "Illegal move"
+                raise ColumnFullError("Column is full. Please try again: ")
         board._array[row, column - 1] = self._player
 
 
@@ -98,11 +98,10 @@ class Board:
             print(self._divider.center(50))
             for slot in row:
                 cage_row += f"| {piece_dict.get(slot)} " 
-            cage_row += "|"
-            print(" " * 10 + cage_row)
+            print(" " * 10 + cage_row + "|")
             cage_row = ""
         
         print(self._edge.center(50))
 
     def clear_board(self):
-        self._array = np.array([[0 for i in range(7)] for i in range(6)])
+        self._array = np.array([["0" for i in range(7)] for i in range(6)])
