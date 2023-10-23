@@ -15,21 +15,23 @@ class PlayerLounge:
     def __init__(self, users_record):
         self._users_record = users_record
         self._lounge = r"""
-  \_                                                _/
-    \_                                            _/
-      \                                      ____/
-       |                                    |
-       |______                        ______|
-       |      |\ ______      ______ /|      |      
-       |      | |      |    |      | |      |
-       |LOUNGE| |      |PLAY|      | | EXIT |
-       | <--- | |      |    |      | | ---> |
-       |      | |______|    |______| |      |       
-       |______|/                    \|______|
-       |                                    |
-   ____|                                    |___
- _/                                             \_
-/                                                 \
+  \_                                                    _/
+    \_                                                _/
+      \                                          ____/
+       |                                        |
+       |_________                      _________|
+       |         |\ ________________ /|         |      
+       |         | |   __________   | |         |
+       |         | |  |HIGH-SCORE|  | |         |
+       |CUSTOMIZE| |  | *....... |  | |  EXIT   |
+       | <------ | |  | *....... |  | | ------> |       
+       |         | |  |__________|  | |         |
+       |         | |________________| |         |
+       |_________|/                  \|_________|
+       |                                        |
+   ____|                                        |___
+ _/                                                 \_
+/                                                     \
 """
 
     @property
@@ -67,8 +69,9 @@ class PlayerLounge:
     
     def display_lounge(self):
         print(self.lounge)
-        validate_input(
+        command = validate_input(
             "Welcome to the player lounge! Here you can customize your piece and access player information.\n"
             "Please enter a command: ",
-            "^(high-score|customize|player-info)$"
+            "^(high-score|customize|player-info|exit)$"
         )
+        return command.lower()
