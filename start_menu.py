@@ -18,6 +18,40 @@ def start_screen():
     input(f"{' ' * 16} Press Enter to continue!")
     clear_screen()
 
+def lobby():
+    loun = colored("LOUNGE", "blue")
+    mat = colored("MATCH", "green")
+    ex = colored("EXIT", "red")
+    print(fr'''
+        \_                                                _/
+          \_                                            _/
+            \                                      ____/
+            |                                     |
+            |______                         ______|
+            |      |\ ___________________ /|      |      
+            |      | |     _________     | |      |
+            |      | |    |    |    |    | |      |
+            |{loun}| |    |    |    |    | | {ex} |
+            | <--- | |    |   o|o   |    | | ---> |       
+            |      | |    |    |    |    | |      |
+            |      | |____|____|____|____| |      |
+            |______|/        {mat}        \|______|
+            |                  .                  |
+        ____|                 / \                 |___
+      _/                     / | \                    \_
+     /                         |                        \
+                               |                               
+    ''')
+    command = validate_input(
+        "Welcome to Terminal Connect Four! Select an option:\n"
+        "LOUNGE: Customize your piece, or view player statistics\n"
+        "MATCH: Start a player match\n"
+        "EXIT: All users logout and exit the game\n"
+        "(lounge / match / exit): ",
+        "^(lounge|match|exit)$"
+    )
+    return command.lower()
+
 def update_attributes(piece, user, details):
     piece.player_name = details.get("username")
     piece.color = details.get("color")
@@ -95,7 +129,8 @@ def validate_account(username, pin):
 
 def game_setup(player, user):
     is_existing_user = validate_input(
-        (f"Player {player.player}! Are you an existing user? (y / n): "),
+        ("Welcome! Before starting the game, both players must be logged in."
+        f"Player {player.player}! Are you an existing user? (y / n): "),
         "^[yn]$"
     )
 
@@ -229,11 +264,10 @@ def game_start(players):
         else:
             pass
 
-
     clear_screen()
 
     while players[0].color == players[1].color and players[0].piece_type == players[1].piece_type:
-        print("Both players have the exact same piece type and color. Please change piece type / color accordingly.")
+        print("In order to start the game, both players cannot have the exact same piece type and color. Please change piece type / color accordingly.")
         ask_to_change_piece_properties(players[0])
         ask_to_change_piece_properties(players[1])
         

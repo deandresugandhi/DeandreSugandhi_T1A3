@@ -1,6 +1,7 @@
 import json
 import operator
 from utilities import validate_input
+from termcolor import colored
 
 def generate_users_record():
     with open("users.json", "r") as file:
@@ -13,26 +14,29 @@ def generate_users_record():
 
 class PlayerLounge:
     def __init__(self, users_record):
+        customi = colored("CUSTOMIZE", "cyan")
+        high_sco = colored("HIGH-SCORE", "yellow")
+        ex = colored("EXIT", "red")
         self._users_record = users_record
-        self._lounge = r"""
-  \_                                                    _/
-    \_                                                _/
-      \                                          ____/
-       |                                        |
-       |_________                      _________|
-       |         |\ ________________ /|         |      
-       |         | |   __________   | |         |
-       |         | |  |HIGH-SCORE|  | |         |
-       |CUSTOMIZE| |  | *....... |  | |  EXIT   |
-       | <------ | |  | *....... |  | | ------> |       
-       |         | |  |__________|  | |         |
-       |         | |________________| |         |
-       |_________|/                  \|_________|
-       |                                        |
-   ____|                                        |___
- _/                                                 \_
-/                                                     \
-"""
+        self._lounge = fr"""
+          \_                                                    _/
+            \_                                                _/
+              \                                          ____/
+               |                                        |
+               |_________                      _________|
+               |         |\ ________________ /|         |      
+               |         | |   __________   | |         |
+               |         | |  |{high_sco}|  | |         |
+               |{customi}| |  | *....... |  | |  {ex}   |
+               | <------ | |  | *....... |  | | ------> |       
+               |         | |  |__________|  | |         |
+               |         | |________________| |         |
+               |_________|/                  \|_________|
+               |                                        |
+           ____|                                        |___
+         _/                                                 \_
+        /                                                     \
+        """
 
     @property
     def users_record(self):
@@ -67,11 +71,28 @@ class PlayerLounge:
             if count == 5 or count == len(self.users_record):
                 break
     
-    def display_lounge(self):
-        print(self.lounge)
-        command = validate_input(
-            "Welcome to the player lounge! Here you can customize your piece and access player information.\n"
-            "Please enter a command: ",
-            "^(high-score|customize|player-info|exit)$"
-        )
-        return command.lower()
+    def enter_lounge(self):
+        while True:
+            print(self.lounge)
+            command = validate_input(
+                ("Welcome to the player lounge! Here you can customize your piece and access player statistics.\n"
+                "(high_score / customize / player_info / exit): "),
+                "^(high_score|customize|player_info|exit)$"
+            )
+            match command:
+                case "high_score":
+                    command = validate_input(
+                        ("Which high-score board do you want to view?\n"
+                        "(wins / games_played / win_ratio / exit): "),
+                        "^(wins|games_played|win_ratio|exit)$"
+                    )
+                    if command.lower() != "exit":
+                        self.display_high_scorer(command)
+                    else:
+                    
+
+            case "customize":
+
+            case "player_info":
+                
+            case "exit":
