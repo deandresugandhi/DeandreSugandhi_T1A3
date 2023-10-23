@@ -3,6 +3,7 @@ from win_conditions import VictoryChecker
 from game_engine import game_in_progress, game_complete, game_reset
 from start_menu import game_setup, game_start, start_screen
 from user_utils import User, reset_login
+from player_lounge import generate_users_record
 import atexit
 import colorama
 
@@ -18,6 +19,7 @@ user2 = User("Guest", games_played=None, wins=None, losses=None, win_ratio=None)
 users = [user1, user2]
 board = Board(players)
 referee = VictoryChecker(board, players)
+users_record = generate_users_record()
 
 start_screen()
 game_setup(player1, user1)
