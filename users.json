@@ -2,23 +2,34 @@
     {
         "username": "tester123",
         "pin": "1923",
-        "games_played": 14,
-        "wins": 8,
-        "losses": 8,
-        "win_ratio": 1.0,
+        "games_played": 17,
+        "wins": 10,
+        "losses": 9,
+        "win_ratio": 1.1,
         "color": "red",
         "piece_type": "M",
-        "logged_in": "n"
+        "logged_in": "y"
     },
     {
         "username": "tester321",
         "pin": "1009",
-        "games_played": 14,
-        "wins": 4,
-        "losses": 10,
-        "win_ratio": 0.4,
+        "games_played": 16,
+        "wins": 5,
+        "losses": 11,
+        "win_ratio": 0.5,
         "color": "cyan",
         "piece_type": "A",
         "logged_in": "n"
+    },
+    {
+        "username": "tester501",
+        "pin": "1234",
+        "games_played": 1,
+        "wins": 0,
+        "losses": 1,
+        "win_ratio": 0.0,
+        "color": "red",
+        "piece_type": "H",
+        "logged_in": "y"
     }
 ]

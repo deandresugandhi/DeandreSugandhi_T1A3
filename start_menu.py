@@ -1,9 +1,24 @@
 import re
-import subprocess
 import json
 import colorama
 from termcolor import colored
-from utilities import clear_screen, reset_screen, validate_input
+from utilities import clear_screen, validate_input
+import art
+from maskpass import askpass
+
+def start_screen():
+    clear_screen()
+    logo1 = colored(art.text2art("CONNECT", font="chunky", space = 0)[0:], "blue")
+    logo2 = colored(art.text2art("FOUR", font="coinstak", space = 5)[0:-40], "red", attrs=["bold"])
+    frame = colored("=" * 61, "yellow", attrs=["underline"])
+    frame2 = colored('-' * 25, "yellow")
+    text = colored(" TERMINAL ", "dark_grey", attrs=["bold"])
+    print("\n" + frame2 + text + frame2 + colored('-', "yellow"))
+    print(logo1 + logo2)
+    print(frame + "\n")
+    input(f"{' ' * 16} Press Enter to continue!")
+    clear_screen()
+
 
 def update_attributes(piece, user, details):
     piece.player_name = details.get("username")
@@ -23,6 +38,7 @@ def validate_color(prompt):
         except:
             user_input = input("Invalid color, please try again: ")
         else:
+            clear_screen()
             return user_input
 
 def validate_username(prompt, match):
@@ -111,7 +127,8 @@ def game_setup(player, user):
                 "of unauthorized access, please use a unique PIN that is not associated with your other external accounts.\n"
                 "PIN: ",
                 r"^\d{4}$",
-                "Invalid PIN, please try again: "
+                "Invalid PIN, please try again: ",
+                masked = True
             )
 
             new_player_color = validate_color(
@@ -143,7 +160,7 @@ def game_setup(player, user):
     else:
         while True:
             existing_username = input("Enter your username: ")
-            existing_pin = input("Enter your PIN: ")
+            existing_pin = askpass("Enter your PIN: ")
             account_details = validate_account(existing_username, existing_pin)
 
             if account_details == None:
@@ -156,7 +173,70 @@ def game_setup(player, user):
                 break
     
 def game_start(players):
+
+    def change_piece_properties(player):
+        while True:
+            player.color = validate_color(
+                ("Pick your piece color.\n"
+                "Available options: black, red, green, yellow, blue, magenta, cyan, light_grey, "
+                "dark_grey, light_red, light_green, light_yellow, light_blue, light_magenta, light_cyan.\n"
+                f"{players[0].player_name}'s new color: "),
+            )
+
+            player.piece_type = validate_input(
+                ("Pick your piece type.\n"
+                "Your piece type can only contain a single uppercase (A-Z) or lowercase letter(a-z), or a single number(0-9).\n"
+                "Piece Type: "),
+                "^[a-zA-Z0-9]$",
+                "Invalid piece type, please try again: "
+            )
+
+            print(f"preview: {colored(player.piece_type, player.color)}")
+            
+            piece_satisfied = validate_input(
+                ("Confirm piece type and color? \n" 
+                "(y / n): "),
+                "^(y|n)$"
+            )
+
+            clear_screen() 
+            if piece_satisfied == "n":
+                continue 
+            else:
+                break
+
+        with open("users,json", "r") as file:
+            users = json.load(file)
+
+        for user in users:
+            if user["username"] == player.player_name:
+                user["color"] = player.color
+                user["piece_type"] = player.piece_type
+                break
+                
+        with open("users.json", "w") as file:
+            json.dump(users, file, indent=4)
+
+    def ask_to_change_piece_properties(player):
+        player_changing = validate_input(
+            (f"Does {player.player_name} want to change piece properties?\n"
+            "(y / n): "),
+            "^(y|n)$"
+        )
+
+        if player_changing == "y":
+            change_piece_properties(players[0])
+        else:
+            pass
+
+
     clear_screen()
+
+    while players[0].color == players[1].color and players[0].piece_type == players[1].piece_type:
+        print("Both players have the exact same piece type and color. Please change piece type / color accordingly.")
+        ask_to_change_piece_properties(players[0])
+        ask_to_change_piece_properties(players[1])
+        
     ready = input(f"{colored(players[0].player_name, players[0].color)} and {colored(players[1].player_name, players[1].color)}, press enter when ready! ")
 
 

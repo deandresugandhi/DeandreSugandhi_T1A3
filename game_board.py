@@ -89,8 +89,8 @@ class Board:
             1: colored(self._players[0].piece_type, self._players[0].color),
             2: colored(self._players[1].piece_type, self._players[1].color),
         }
-        print(colored("        COLUMN NUMBER        ", "red"))
-        print(*self._column, sep="")
+        print(colored("\n" + "        COLUMN NUMBER        ", "white"))
+        print(colored("".join(self._column) + " ", "black", "on_white"))
         for row in self._array:
             print(self._divider)
             for index, slot in enumerate(row):

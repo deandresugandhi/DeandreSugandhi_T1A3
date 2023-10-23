@@ -1,5 +1,6 @@
 from utilities import clear_screen, reset_screen, validate_input
-
+import colorama
+from termcolor import colored
 
 def game_in_progress(board, players, referee):
     player_turn = 0
@@ -7,7 +8,7 @@ def game_in_progress(board, players, referee):
 
     while referee.check_victory() is None and move_count < 42:
         reset_screen(board)
-        player_command = input(f"{players[player_turn]._player_name}'s turn: ")
+        player_command = input(f"\n{colored(players[player_turn].player_name, players[player_turn].color)}'s turn: ")
         if player_command.lower() == "clear":
             board.clear_board()
             player_turn = 0
@@ -20,6 +21,7 @@ def game_in_progress(board, players, referee):
         player_turn = int(not player_turn)
         move_count += 1
         continue
+    
     reset_screen(board)
     return referee.check_victory(), None
 

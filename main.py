@@ -1,7 +1,7 @@
 from game_board import Board, Piece
 from win_conditions import VictoryChecker
 from game_engine import game_in_progress, game_complete, game_reset
-from start_menu import game_setup, game_start
+from start_menu import game_setup, game_start, start_screen
 from user_utils import User, reset_login
 import atexit
 
@@ -16,6 +16,7 @@ users = [user1, user2]
 board = Board(players)
 referee = VictoryChecker(board, players)
 
+start_screen()
 game_setup(player1, user1)
 game_setup(player2, user2)
 game_start(players)
