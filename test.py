@@ -30,9 +30,3 @@ print(fr'''
 
 
 
-
-match func():
-    case 1:
-        pass
-    case _:
-        pass

@@ -1,6 +1,6 @@
 import json
 import operator
-from utilities import validate_input
+from utilities import validate_input, update_attributes
 from termcolor import colored
 
 def generate_users_record():
@@ -71,7 +71,7 @@ class PlayerLounge:
             if count == 5 or count == len(self.users_record):
                 break
     
-    def enter_lounge(self):
+    def enter_lounge(self, users, players):
         while True:
             print(self.lounge)
             command = validate_input(
@@ -89,10 +89,15 @@ class PlayerLounge:
                     if command.lower() != "exit":
                         self.display_high_scorer(command)
                     else:
+                        continue
+
+                case "customize":
+                    command = validate_input(
+                        ("Which high-score board do you want to view?\n"
+                        "(wins / games_played / win_ratio / exit): "),
+                        "^(wins|games_played|win_ratio|exit)$"
+                    )
+
+                case "player_info":
                     
-
-            case "customize":
-
-            case "player_info":
-                
-            case "exit":
+                case "exit":

@@ -1,7 +1,7 @@
 import re
 import json
 from termcolor import colored
-from utilities import clear_screen, validate_input
+from utilities import clear_screen, validate_input, update_attributes
 import art
 from maskpass import askpass
 
@@ -51,16 +51,6 @@ def lobby():
         "^(lounge|match|exit)$"
     )
     return command.lower()
-
-def update_attributes(piece, user, details):
-    piece.player_name = details.get("username")
-    piece.color = details.get("color")
-    piece.piece_type = details.get("piece_type")
-    user.username = details.get("username")
-    user.games_played = details.get("games_played")
-    user.wins = details.get("wins") 
-    user.losses = details.get("losses")
-    user.win_ratio = details.get("win_ratio")
 
 def validate_color(prompt):
     user_input = input(prompt)

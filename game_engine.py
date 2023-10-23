@@ -4,15 +4,6 @@ from custom_errors import ColumnFullError
 import re
 
 
-def validate_player_turn(prompt, match, board, players):
-    user_input = input(prompt)
-    while True:
-        if re.fullmatch(match, user_input):
-            clear_screen()
-            return user_input
-        else:
-            user_input = input(message) if masked == False else askpass(message)
-            "^([1-7]|clear|surrender)$",
 def game_in_progress(board, players, referee):
     player_turn = 0
     move_count = 0

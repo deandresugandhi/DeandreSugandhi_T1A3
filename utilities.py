@@ -26,3 +26,12 @@ def validate_input(prompt, match, message="Invalid input, please try again: ", m
                 return user_input
         user_input = input(message) if masked == False else askpass(message)
 
+def update_attributes(piece, user, details):
+    piece.player_name = details.get("username")
+    piece.color = details.get("color")
+    piece.piece_type = details.get("piece_type")
+    user.username = details.get("username")
+    user.games_played = details.get("games_played")
+    user.wins = details.get("wins") 
+    user.losses = details.get("losses")
+    user.win_ratio = details.get("win_ratio")
