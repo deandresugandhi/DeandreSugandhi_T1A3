@@ -50,7 +50,7 @@ def update_attributes(piece, user, details):
     user.win_ratio = details.get("win_ratio")
 
 def change_piece_properties(player):
-    if player.player_name.lower() == "guest" or "guest1" or "guest2":
+    if player.player_name.lower() in ["guest", "guest1", "guest2"]:
         print("Guest accounts cannot customize pieces.")
     else:
         while True:
@@ -58,7 +58,7 @@ def change_piece_properties(player):
                 ("Pick your piece color.\n"
                 "Available options: black, red, green, yellow, blue, magenta, cyan, light_grey, "
                 "dark_grey, light_red, light_green, light_yellow, light_blue, light_magenta, light_cyan.\n"
-                f"{player}'s new color: "),
+                f"{player.player_name}'s new color: "),
             )
 
             player.piece_type = validate_input(
@@ -84,7 +84,7 @@ def change_piece_properties(player):
             else:
                 break
 
-        with open("users,json", "r") as file:
+        with open("users.json", "r") as file:
             users = json.load(file)
 
         for user in users:

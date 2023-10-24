@@ -51,6 +51,10 @@ class PlayerLounge(GameHub):
     @property
     def users_record(self):
         return self._users_record
+    
+    @users_record.setter
+    def users_record(self, users_record):
+        self._users_record = users_record
 
     @property
     def visuals(self):
@@ -104,7 +108,7 @@ class PlayerLounge(GameHub):
     def enter(self, players):
 
         self.update_users_record()
-        
+
         high_score_dict = self.generate_feature_dict(
             self.features[0],
             "Which high-score board do you want to view?",
