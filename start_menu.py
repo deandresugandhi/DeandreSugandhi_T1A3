@@ -144,8 +144,7 @@ def validate_account(username, pin):
 
 def game_setup(player, user):
     is_existing_user = validate_input(
-        ("Welcome! Before starting the game, both players must be logged in.\n"
-        f"Player {player.player}! Are you an existing user? (y / n): "),
+        (f"Player {player.player}! Are you an existing user? (y / n): "),
         "^[yn]$"
     )
 
@@ -205,6 +204,9 @@ def game_setup(player, user):
         
         elif account_type.lower() == "guest":
             print(f"Using guest account. You will be playing as {player.player_name}.")
+        
+        input("Press enter to continue!")
+        clear_screen()
 
     else:
         while True:
@@ -213,12 +215,24 @@ def game_setup(player, user):
             account_details = validate_account(existing_username, existing_pin)
 
             if account_details == None:
-                print("Invalid username or PIN. Please try again: ")
+                try_again = validate_input(
+                    ("Invalid username or PIN. Try again or use a guest account?\n"
+                     "(again / guest): "),
+                     "^(again|guest)$"
+                )
+                if try_again.lower() == "again":
+                    continue
+                elif try_again.lower() == "guest":
+                    print(f"Using guest account. You will be playing as {player.player_name}")
+                    break
+            
             elif account_details == "Duplicate":
                 print(f"{existing_username} is already logged in. Please try again: ")
             else:
                 update_attributes(player, user, account_details)
                 print(f"Successfully logged in! You will be playing as {colored(player.player_name, player.color)}.")
+                input("Press enter to continue!")
+                clear_screen()
                 break
     
 def game_start(players):

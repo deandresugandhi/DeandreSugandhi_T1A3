@@ -25,6 +25,7 @@ users_record = generate_users_record()
 player_lounge = PlayerLounge(users_record)
 
 start_screen()
+print("Welcome! Before starting the game, both players must be logged in.")
 game_setup(player1, user1)
 game_setup(player2, user2)
 
