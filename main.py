@@ -12,8 +12,8 @@ colorama.init(autoreset=True)
 
 reset_login()
 
-player1 = Piece("Player1","white", "O", "1")
-player2 = Piece("Player2","white", "X", "2")
+player1 = Piece("Guest1","white", "O", "1")
+player2 = Piece("Guest2","white", "X", "2")
 players = [player1, player2]
 user1 = User("Guest", games_played=None, wins=None, losses=None, win_ratio=None)
 user2 = User("Guest", games_played=None, wins=None, losses=None, win_ratio=None)
@@ -23,28 +23,12 @@ referee = VictoryChecker(board, players)
 users_record = generate_users_record()
 player_lounge = PlayerLounge(users_record)
 
+
+player_lounge.enter(players)
 start_screen()
 game_setup(player1, user1)
 game_setup(player2, user2)
 command = lobby()
-match command:
-    case "lounge":
-        command = player_lounge.enter_lounge()
-        match command:
-            case "high-score":
-                command = validate_input
-                player_lounge.display_high_scorer()
-            case "customize":
-
-            case "player-info":
-            
-            case "exit":
-
-    case "match":
-    
-    case "exit":
-
-game_start(players)
 
 while True:
     game_result = game_in_progress(board, players, referee)

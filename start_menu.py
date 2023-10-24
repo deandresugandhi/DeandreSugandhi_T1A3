@@ -61,6 +61,9 @@ def validate_username(prompt, match):
         if not re.fullmatch(match, user_input):
             user_input = input("Invalid username, please try again: ")
             continue
+        elif user_input.lower == "guest" or "guest1" or "guest2":
+            user_input = input("That's a guest account. Please try again: ")
+            continue
 
         for user in users:
             if user_input == user.get("username"):

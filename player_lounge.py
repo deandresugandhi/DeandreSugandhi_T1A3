@@ -1,6 +1,6 @@
 import json
 import operator
-from utilities import validate_input, update_attributes, change_piece_properties, clear_screen, GameHub, room_logic
+from utilities import validate_input, update_attributes, change_piece_properties, clear_screen, GameHub
 from termcolor import colored
 
 def generate_users_record():
@@ -39,7 +39,7 @@ class PlayerLounge(GameHub):
      _/                                                \_
     /                                                    \
             """,
-            features=["high_score", "customize"]
+            features=["high_score", "customize"],
             prompt="Welcome to the player lounge! Here you can customize your piece and access player statistics." 
         )
         self._users_record = users_record
@@ -53,6 +53,15 @@ class PlayerLounge(GameHub):
     def visuals(self):
         return self._visuals
     
+    def update_users_record(self):
+        with open("users.json", "r") as file:
+            users_record = json.load(file)
+        key_del_list = ["pin", "color", "piece_type", "logged_in"]
+        for user in users_record:
+            for key in key_del_list:
+                del user[key]
+        self.users_record = users_record 
+
     def display_user_details(self, username):
         for user in self.users_record:
             if user["username"] == username:
@@ -88,11 +97,11 @@ class PlayerLounge(GameHub):
         else:
             raise ValueError("Unknown command. Please try again: ")
         
-    def enter_lounge(self, users, players):
+    def enter(self, players):
         high_score_dict = self.generate_feature_dict(
             self.features[0],
-            "Which high-score board do you want to view?"
-            ["wins", "games_played", "win_ratio", "exit"]
+            "Which high-score board do you want to view?",
+            ["wins", "games_played", "win_ratio", "exit"],
             self.display_high_scorer,
             []
         )
@@ -102,5 +111,13 @@ class PlayerLounge(GameHub):
             "Which player is customizing?",
             ["p1", "p2", "exit"],
             self.customization,
-            players
+            [players],
+        )
+
+        features_list = [high_score_dict, customize_dict]
+
+        self.enter_logic(features_list)
+        return "back_to_lobby"
+
+        
 

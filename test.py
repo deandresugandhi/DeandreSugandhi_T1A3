@@ -49,3 +49,8 @@
 #          _/                                                 \_
 #         /                                                     \
 #         """
+
+
+from player_lounge import PlayerLounge
+
+player_lounge = PlayerLounge()
