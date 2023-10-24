@@ -1,11 +1,12 @@
 """
 Module to define how a Connect Four match is run. 
 
-Includes three functions that represents the three phases of the game:
-1. game_in_progress(): (from start of game to when a win / loss / draw is 
-   detected), 
-2. game_complete(): (from end of game to decision on what to do post-game)
-3. game_reset(): (when players want to play again).
+Includes four functions that represents the three phases of the game:
+1. game_start(): Pre-game
+1. game_in_progress(): From start of game to when a win / loss / draw is 
+   detected
+2. game_complete(): From end of game to decision on what to do post-game
+3. game_reset(): When players want to play again
 """
 
 # Standard Library Modules
@@ -15,8 +16,58 @@ import re
 from termcolor import colored
 
 # Local Modules
-from utilities import reset_screen, validate_input
 from custom_errors import ColumnFullError
+from utilities import (
+    clear_screen, 
+    reset_screen, 
+    validate_input, 
+    change_piece_properties
+)
+
+def game_start(players):
+    """
+    Function to validate the pre-conditions before a game can start.
+
+    Args:
+    1. players (list): A list of Piece instances, defining the players
+       playing the game.
+    """
+
+    def ask_to_change_piece_properties(player):
+        """
+        Function to validate input to change the piece properties of a player.
+        
+        Args:
+        1. player(Piece): A Piece instance of the player to be modified.
+        """
+        player_changing = validate_input(
+            (f"Does {player.player_name} want to change piece properties?\n"
+            "(y / n): "),
+            "^(y|n)$"
+        )
+        if player_changing == "y":
+            change_piece_properties(player)
+        else:
+            pass
+
+    clear_screen()
+
+    # Change properties of the players' pieces until they don't have the exact
+    # visual representation of their pieces (both color and type).
+    while (
+        players[0].color == players[1].color and
+        players[0].piece_type == players[1].piece_type
+    ):
+        print(
+            "In order to start the game, both players cannot have the "
+            "exact same piece type and color. Please change "
+            "piece type / color accordingly.")
+        ask_to_change_piece_properties(players[0])
+        ask_to_change_piece_properties(players[1])
+
+    input(f"{colored(players[0].player_name, players[0].color)} and "
+          f"{colored(players[1].player_name, players[1].color)}, "
+          "press enter when ready! ")
 
 
 def game_in_progress(board, players, referee):

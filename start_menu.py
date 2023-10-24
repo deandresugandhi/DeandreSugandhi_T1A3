@@ -235,26 +235,6 @@ def game_setup(player, user):
                 clear_screen()
                 break
     
-def game_start(players):
-    def ask_to_change_piece_properties(player):
-        player_changing = validate_input(
-            (f"Does {player.player_name} want to change piece properties?\n"
-            "(y / n): "),
-            "^(y|n)$"
-        )
 
-        if player_changing == "y":
-            change_piece_properties(player)
-        else:
-            pass
-
-    clear_screen()
-
-    while players[0].color == players[1].color and players[0].piece_type == players[1].piece_type:
-        print("In order to start the game, both players cannot have the exact same piece type and color. Please change piece type / color accordingly.")
-        ask_to_change_piece_properties(players[0])
-        ask_to_change_piece_properties(players[1])
-        
-    ready = input(f"{colored(players[0].player_name, players[0].color)} and {colored(players[1].player_name, players[1].color)}, press enter when ready! ")
 
 

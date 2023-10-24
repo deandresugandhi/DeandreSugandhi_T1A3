@@ -1,7 +1,11 @@
+
+# Standard Library Modules
+# Third-party library Modules
+# Local Modules
 from game_board import Board, Piece
 from win_conditions import VictoryChecker
 from game_engine import game_in_progress, game_complete, game_reset
-from start_menu import game_setup, game_start, start_screen, MainLobby
+from start_menu import game_setup, start_screen, MainLobby
 from user_utils import User, reset_login
 from player_lounge import generate_users_record, PlayerLounge
 from utilities import validate_input
