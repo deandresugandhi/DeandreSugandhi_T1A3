@@ -1,6 +1,6 @@
 import json
 import operator
-from utilities import validate_input, update_attributes
+from utilities import validate_input, update_attributes, change_piece_properties, clear_screen, GameHub, room_logic
 from termcolor import colored
 
 def generate_users_record():
@@ -12,41 +12,48 @@ def generate_users_record():
             del user[key]
     return users_record
 
-class PlayerLounge:
+class PlayerLounge(GameHub):
     def __init__(self, users_record):
         customi = colored("CUSTOMIZE", "cyan")
-        high_sco = colored("HIGH-SCORE", "yellow")
+        high_sco = colored("HIGH_SCORE", "yellow")
         ex = colored("EXIT", "red")
+        u1 = colored("USER", "magenta")
+        u2 = colored("INFO", "blue")
+        super().__init__(
+            visuals=fr"""
+  \_                                                      _/
+    \_                                                  _/
+      \                                                /
+       |                                              |
+       |_________                            _________|
+       |         |\ ______________________ /|         |      
+       |         | |      __________      | |         |
+       |         | |     |{high_sco}|     | |         |
+       |{customi}| |____ | *....... |     | |  {ex}   |
+       | <------ |/____/|| *....... |     | | ------> |       
+       |         ||{u1}|||__________|     | |         |
+       |         ||{u2}||_________________| |         |
+       |_________||____|/                  \|_________|
+       |                                              |
+       |                                              |
+     _/                                                \_
+    /                                                    \
+            """,
+            features=["high_score", "customize"]
+            prompt="Welcome to the player lounge! Here you can customize your piece and access player statistics." 
+        )
         self._users_record = users_record
-        self._lounge = fr"""
-          \_                                                    _/
-            \_                                                _/
-              \                                          ____/
-               |                                        |
-               |_________                      _________|
-               |         |\ ________________ /|         |      
-               |         | |   __________   | |         |
-               |         | |  |{high_sco}|  | |         |
-               |{customi}| |  | *....... |  | |  {ex}   |
-               | <------ | |  | *....... |  | | ------> |       
-               |         | |  |__________|  | |         |
-               |         | |________________| |         |
-               |_________|/                  \|_________|
-               |                                        |
-           ____|                                        |___
-         _/                                                 \_
-        /                                                     \
-        """
+      
 
     @property
     def users_record(self):
         return self._users_record
 
     @property
-    def lounge(self):
-        return self._lounge
+    def visuals(self):
+        return self._visuals
     
-    def access_user_details(self, username):
+    def display_user_details(self, username):
         for user in self.users_record:
             if user["username"] == username:
                 print(f"{user['username']}'s stats:")
@@ -71,33 +78,29 @@ class PlayerLounge:
             if count == 5 or count == len(self.users_record):
                 break
     
+    def customization(self, command, players):
+        if command.lower() == "p1":
+            clear_screen()
+            change_piece_properties(players[0])
+        elif command.lower() == "p2":
+            clear_screen()
+            change_piece_properties(players[1])
+        else:
+            raise ValueError("Unknown command. Please try again: ")
+        
     def enter_lounge(self, users, players):
-        while True:
-            print(self.lounge)
-            command = validate_input(
-                ("Welcome to the player lounge! Here you can customize your piece and access player statistics.\n"
-                "(high_score / customize / player_info / exit): "),
-                "^(high_score|customize|player_info|exit)$"
-            )
-            match command:
-                case "high_score":
-                    command = validate_input(
-                        ("Which high-score board do you want to view?\n"
-                        "(wins / games_played / win_ratio / exit): "),
-                        "^(wins|games_played|win_ratio|exit)$"
-                    )
-                    if command.lower() != "exit":
-                        self.display_high_scorer(command)
-                    else:
-                        continue
+        high_score_dict = self.generate_feature_dict(
+            self.features[0],
+            "Which high-score board do you want to view?"
+            ["wins", "games_played", "win_ratio", "exit"]
+            self.display_high_scorer,
+            []
+        )
 
-                case "customize":
-                    command = validate_input(
-                        ("Which high-score board do you want to view?\n"
-                        "(wins / games_played / win_ratio / exit): "),
-                        "^(wins|games_played|win_ratio|exit)$"
-                    )
+        customize_dict = self.generate_feature_dict(
+            self.features[1],
+            "Which player is customizing?",
+            ["p1", "p2", "exit"],
+            self.customization,
+            players
 
-                case "player_info":
-                    
-                case "exit":
