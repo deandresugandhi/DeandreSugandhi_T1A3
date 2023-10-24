@@ -1,8 +1,24 @@
+"""
+A module containing classes that represents the objects involved to play 
+Connect Four, namely the game board and game pieces.
+"""
+
+# Standard Library Modules
 import re
-import numpy as np
+
+# Third-party Library Modules
 from termcolor import colored
 import art
-from custom_errors import ColumnFullError
+import numpy as np
+
+# Local Modules
+from custom_errors import (
+    ColumnFullError,
+    UsernameError,
+    ColorError,
+    PieceTypeError
+)
+
 
 class Piece:
     """
@@ -25,7 +41,6 @@ class Piece:
         self._piece_type = piece_type
         self._player = player
         self.surrender = False
-
 
     @property
     def player_name(self):
@@ -105,7 +120,9 @@ class Piece:
 
     def drop(self, board, column):
         """
-        A method to drop the piece onto the board.
+        A method to drop the piece onto the board. Players 1's piece would be
+        represented as a "1" in the board's array, and players 2's piece would
+        be represented as a "2" in the board's array.
 
         Args:
         1. board (Board): An instance of the Board class, defining the board 
@@ -114,11 +131,11 @@ class Piece:
            board to drop the piece onto
         """
         row = -1
-        while board._array[row, column - 1] != "0":
+        while board.array[row, column - 1] != "0":
             row -= 1
             if row < -6:
                 raise ColumnFullError("Column is full. Please try again: ")
-        board._array[row, column - 1] = self._player
+        board.array[row, column - 1] = self.player
 
 
 class Board:
@@ -130,7 +147,8 @@ class Board:
 
     Attributes:
     1. _array (np.array): A NumPy array with 6 lists (representing rows) with
-       7 elements each (representing columns).
+       7 elements each (representing columns). 0 represents an empty space
+       in the cage.
     2. _edge (str): Component used to display the board. It is the bottom edge 
        of the game board, representing the slider to clear the board.
     3. _divider (str): Component used to display the board. Represents the 
@@ -170,29 +188,54 @@ class Board:
 
     def display(self):
         """A method to display the board array's visual representation."""
-        # Sets a dictionary as a reference to display 
+        # Create a dictionary as a reference to display the board. "1" key
+        # refers to players 1's piece representation in the board (from the
+        # Piece.drop() method), "2" key refers that of player 2's. Value is
+        # the Piece instance's _piece_type colored with its _color.
         piece_dict = {
             "0": " ",
             "1": colored(self.players[0].piece_type, self.players[0].color),
             "2": colored(self.players[1].piece_type, self.players[1].color),
         }
-        logo = colored(art.text2art(f"CONNECT 4", font="small", space = 0), "light_grey")
-        
-        print(logo[0:-10])
-        print(f"{self._players[0].player_name} = {piece_dict.get('1')}".center(58))
-        print(f"{self._players[1].player_name} = {piece_dict.get('2')}".center(58))
-        print(colored("\n" + "        COLUMN NUMBER        ".center(50), "white"))
-        print("          "+ colored("".join(self._column)+ " ", "black", "on_white"))
 
+        # Creates a CONNECT 4 ASCII art logo
+        logo = colored(
+               art.text2art("CONNECT 4", font="small", space = 0),
+               "light_grey")
+
+        # Prints the visual representation of the array on the board.
+        # Prints CONNECT 4 logo sliced to remove its built-in line breaks
+        print(logo[0:-10])
+        # Prints player names and preview of their pieces' representation
+        # centered to the board.
+        print(
+            f"{self._players[0].player_name} = {piece_dict.get('1')}".center(58)
+            )
+        print(
+            f"{self._players[1].player_name} = {piece_dict.get('2')}".center(58)
+            )
+        # Prints the heading "COLUMN NUMBER" centered to the board.
+        print(colored("\n" + "        COLUMN NUMBER        ".center(50), "white"))
+        # Prints the column numbers above each column, centered to the board.
+        print(
+            "          " + colored("".join(self._column) + " ",
+            "black", "on_white")
+            )
+
+        # Prints the actual game board.
         cage_row = ""
         for row in self._array:
             print(self._divider.center(50))
+            # Displays the content of each slot in the board based on the dict.
             for slot in row:
-                cage_row += f"| {piece_dict.get(slot)} " 
+                # Adds each slot into cage_row, to form display of a row
+                cage_row += f"| {piece_dict.get(slot)} "
+            # Prints the row, with space in the beginning to center the board.
             print(" " * 10 + cage_row + "|")
             cage_row = ""
-        
+        # Prints the slider of the board
         print(self._edge.center(50))
 
     def clear_board(self):
+        """A method to clear the board, equivalent to pulling board slider"""
         self.array = np.array([["0" for i in range(7)] for i in range(6)])
