@@ -115,13 +115,14 @@ class GameHub:
     def prompt(self):
         return self._prompt
     
-    def generate_feature_dict(self, feature, prompt, selections, function, additional_args):
+    def generate_feature_dict(self, feature, prompt, selections, function, additional_args = [], custom_match = None):
             dict = {
                 "feature": feature,
                 "prompt": prompt,
                 "selections": selections,
                 "function": function,
                 "additional_args": additional_args,
+                "custom_match": custom_match,
             }
             return dict
 
@@ -133,8 +134,11 @@ class GameHub:
         command = validate_input(new_prompt, match)
         return command
     
+    def move_hub(self, move_to):
+        return move_to
+
     def access_feature(self, feature_dict):
-        match = f"^({'|'.join(feature_dict.get('selections'))})$"
+        match = f"^({'|'.join(feature_dict.get('selections'))})$" if feature_dict.get('custom_match') == None else feature_dict.get('custom_match') 
         command_list = f"({' / '.join(feature_dict.get('selections'))}): "
         new_prompt = feature_dict.get('prompt') + "\n" + command_list
         while True:
@@ -143,7 +147,10 @@ class GameHub:
                 return False
             else:
                 function_args = feature_dict.get("additional_args", [])
-                feature_dict.get('function')(command, *function_args)
+                if feature_dict.get("function") != self.move_hub:
+                    feature_dict.get("function")(command, *function_args)
+                else:
+                    return feature_dict.get("function")(*function_args)
     
     def enter_logic(self, features_list):
         while True:
@@ -151,8 +158,14 @@ class GameHub:
             if command.lower() != "exit":
                 for feature_dict in features_list:
                     if feature_dict.get("feature") == command.lower():
-                        self.access_feature(feature_dict)
-                        break
+                        move_to = self.access_feature(feature_dict)
+                        if move_to == False:
+                            break
+                        else:
+                            return move_to
             else:
-                return False
+                confirm_exit = validate_input("Confirm exit (y / n): ", "^(y|n)$")
+                if confirm_exit == "n":
+                    continue
+                return "exit"
             

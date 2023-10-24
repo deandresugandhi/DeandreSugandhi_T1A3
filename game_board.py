@@ -77,6 +77,14 @@ class Board:
         self._players = players
 
     @property
+    def players(self):
+        return self._players
+    
+    @players.setter
+    def players(self, players):
+        self._players = players
+
+    @property
     def array(self):
         return self._array
 

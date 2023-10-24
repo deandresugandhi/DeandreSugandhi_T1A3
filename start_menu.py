@@ -1,7 +1,7 @@
 import re
 import json
 from termcolor import colored
-from utilities import clear_screen, validate_input, update_attributes, change_piece_properties, validate_color
+from utilities import clear_screen, validate_input, update_attributes, change_piece_properties, validate_color, GameHub
 import art
 from maskpass import askpass
 
@@ -18,39 +18,72 @@ def start_screen():
     input(f"{' ' * 16} Press Enter to continue!")
     clear_screen()
 
-def lobby():
-    loun = colored("LOUNGE", "blue")
-    mat = colored("MATCH", "green")
-    ex = colored("EXIT", "red")
-    print(fr'''
-        \_                                                _/
-          \_                                            _/
-            \                                      ____/
-            |                                     |
-            |______                         ______|
-            |      |\ ___________________ /|      |      
-            |      | |     _________     | |      |
-            |      | |    |    |    |    | |      |
-            |{loun}| |    |    |    |    | | {ex} |
-            | <--- | |    |   o|o   |    | | ---> |       
-            |      | |    |    |    |    | |      |
-            |      | |____|____|____|____| |      |
-            |______|/        {mat}        \|______|
-            |                  .                  |
-        ____|                 / \                 |___
-      _/                     / | \                    \_
-     /                         |                        \
-                               |                               
-    ''')
-    command = validate_input(
-        "Welcome to Terminal Connect Four! Select an option:\n"
-        "LOUNGE: Customize your piece, or view player statistics\n"
-        "MATCH: Start a player match\n"
-        "EXIT: All users logout and exit the game\n"
-        "(lounge / match / exit): ",
-        "^(lounge|match|exit)$"
-    )
-    return command.lower()
+class MainLobby(GameHub):
+    def __init__(self):
+        loun = colored("LOUNGE", "blue")
+        mat = colored("MATCH", "green")
+        ex = colored("EXIT", "red")
+        super().__init__(
+            visuals=fr"""
+    \_                                                _/
+      \_                                            _/
+        \                                      ____/
+        |                                     |
+        |______                         ______|
+        |      |\ ___________________ /|      |      
+        |      | |     _________     | |      |
+        |      | |    |    |    |    | |      |
+        |{loun}| |    |    |    |    | | {ex} |
+        | <--- | |    |   o|o   |    | | ---> |       
+        |      | |    |    |    |    | |      |
+        |      | |____|____|____|____| |      |
+        |______|/        {mat}        \|______|
+        |                  .                  |
+    ____|                 / \                 |___
+  _/                     / | \                    \_
+ /                         |                        \
+                           |                               
+            """,
+            features = ["lounge", "match"],
+            prompt=(
+                "Welcome to Terminal Connect Four! Select an option:\n"
+                "LOUNGE: Customize your piece, or view player statistics\n"
+                "MATCH: Start a player match\n"
+                "EXIT: All users logout and exit the game"
+            )
+        )
+
+    @property
+    def visuals(self):
+        return self._visuals
+    
+    def enter(self):
+        lounge_dict = self.generate_feature_dict(
+            self.features[0],
+            "Enter the lounge?",
+            ["press Enter", "exit"],
+            self.move_hub,
+            ["lounge"],
+            custom_match=".*"
+        )
+
+        match_dict = self.generate_feature_dict(
+            self.features[1],
+            "Start a match?",
+            ["press Enter", "exit"],
+            self.move_hub,
+            ["match"],
+            custom_match=".*"
+        )
+
+        features_list = [lounge_dict, match_dict]
+
+        move_to = self.enter_logic(features_list)
+        if move_to == "exit":
+            quit()
+        else:
+            return move_to
+
 
 def validate_username(prompt, match):
     user_input = input(prompt)
@@ -111,7 +144,7 @@ def validate_account(username, pin):
 
 def game_setup(player, user):
     is_existing_user = validate_input(
-        ("Welcome! Before starting the game, both players must be logged in."
+        ("Welcome! Before starting the game, both players must be logged in.\n"
         f"Player {player.player}! Are you an existing user? (y / n): "),
         "^[yn]$"
     )

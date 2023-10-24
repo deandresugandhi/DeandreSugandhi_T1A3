@@ -15,10 +15,11 @@ def generate_users_record():
 class PlayerLounge(GameHub):
     def __init__(self, users_record):
         customi = colored("CUSTOMIZE", "cyan")
-        high_sco = colored("HIGH_SCORE", "yellow")
-        ex = colored("EXIT", "red")
+        high_sco = colored("HIGH SCORE", "yellow")
+        ex_to = colored("EXIT TO", "red")
+        lob = colored("LOBBY", "red")
         u1 = colored("USER", "magenta")
-        u2 = colored("INFO", "blue")
+        u2 = colored("INFO", "magenta")
         super().__init__(
             visuals=fr"""
   \_                                                      _/
@@ -28,8 +29,8 @@ class PlayerLounge(GameHub):
        |_________                            _________|
        |         |\ ______________________ /|         |      
        |         | |      __________      | |         |
-       |         | |     |{high_sco}|     | |         |
-       |{customi}| |____ | *....... |     | |  {ex}   |
+       |         | |     |{high_sco}|     | | {ex_to} |
+       |{customi}| |____ | *....... |     | |  {lob}  |
        | <------ |/____/|| *....... |     | | ------> |       
        |         ||{u1}|||__________|     | |         |
        |         ||{u2}||_________________| |         |
@@ -39,8 +40,10 @@ class PlayerLounge(GameHub):
      _/                                                \_
     /                                                    \
             """,
-            features=["high_score", "customize"],
-            prompt="Welcome to the player lounge! Here you can customize your piece and access player statistics." 
+            features=["high_score", "customize", "user_info"],
+            prompt=(
+                "Welcome to the player lounge! Here you can customize your piece and access player statistics." 
+            )
         )
         self._users_record = users_record
       
@@ -70,8 +73,9 @@ class PlayerLounge(GameHub):
                 print(f"Wins: {user['wins']}")
                 print(f"Losses: {user['losses']}")
                 print(f"Win ratio: {user['win_ratio']}")
+                break
         else:
-            raise ValueError("Invalid username. Please try again: ")
+            print("Invalid username.")
     
     def display_high_scorer(self, sorter):
         sorted_list = sorted(self.users_record, key=operator.itemgetter(sorter), reverse=True)
@@ -98,12 +102,14 @@ class PlayerLounge(GameHub):
             raise ValueError("Unknown command. Please try again: ")
         
     def enter(self, players):
+
+        self.update_users_record()
+        
         high_score_dict = self.generate_feature_dict(
             self.features[0],
             "Which high-score board do you want to view?",
             ["wins", "games_played", "win_ratio", "exit"],
             self.display_high_scorer,
-            []
         )
 
         customize_dict = self.generate_feature_dict(
@@ -114,10 +120,21 @@ class PlayerLounge(GameHub):
             [players],
         )
 
-        features_list = [high_score_dict, customize_dict]
+        user_info_dict = self.generate_feature_dict(
+            self.features[2],
+            "Which user do you want to view?",
+            ["Type username", "exit"],
+            self.display_user_details,
+            custom_match=".*"
+        )
 
-        self.enter_logic(features_list)
-        return "back_to_lobby"
+        features_list = [high_score_dict, customize_dict, user_info_dict]
+
+        new_hub = self.enter_logic(features_list)
+        if new_hub == "exit":
+            return "lobby"
+        else:
+            return new_hub
 
         
 
