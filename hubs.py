@@ -1,6 +1,13 @@
+"""
+Module that defines how hub-like instances work. It contains the parent class
+of a hub-object (GameHub), and two hub-like classes inheriting attributes
+and methods from GameHub itself.
+"""
+
 # Standard Library Modules
 import json
 import operator
+import sys
 
 # Third-party Library Modules
 from termcolor import colored
@@ -20,7 +27,7 @@ def generate_users_record():
             del user[key]
     return users_record
 
-    
+
 class GameHub:
     """
     A template to represent hub-like objects in the game. A hub is a sort of
@@ -409,3 +416,96 @@ class PlayerLounge(GameHub):
             return new_hub
 
 
+class MainLobby(GameHub):
+    """
+    Represents the main lobby of the game, which is the landing area after the
+    players have logged in. It is the hub from which the players can access the
+    main matchmaking system and the player lounge.
+
+    The class inherits from the GameHub class which represents hub-like objects.
+
+    Attributes:
+    1. loun - ex (str): Colored strings to be displayed in the hub's ASCII art.
+    """
+    def __init__(self):
+        loun = colored("LOUNGE", "blue")
+        mat = colored("MATCH", "green")
+        ex = colored("EXIT", "red")
+        super().__init__(
+            visuals=fr"""
+   \_                                             _/
+     \_                                         _/
+       \                                       /
+        |                                     |
+        |______                         ______|
+        |      |\ ___________________ /|      |      
+        |      | |     _________     | |      |
+        |      | |    |    |    |    | |      |
+        |{loun}| |    |    |    |    | | {ex} |
+        | <--- | |    |   o|o   |    | | ---> |       
+        |      | |    |    |    |    | |      |
+        |      | |____|____|____|____| |      |
+        |______|/        {mat}        \|______|
+        |                  .                  |
+        |                 / \                 |
+      _/                 / | \                 \_
+     /                     |                     \
+                           |                               
+            """,
+            features = ["lounge", "match"],
+            prompt=(
+                "Welcome to Terminal Connect Four! Select an option:\n"
+                "LOUNGE: Customize your piece, or view player statistics\n"
+                "MATCH: Start a player match\n"
+                "EXIT: All users logout and exit the game"
+            )
+        )
+
+    @property
+    def visuals(self):
+        """A method to access the hub's ASCII art representation."""
+        return self._visuals
+    
+    def enter(self):
+        """
+        A method that defines what happens when a player decide to enter the
+        MainLobby hub. This method uses inherited methods from the
+        GameHub class.
+        """
+        # Create a dictionary for each feature of the main lobby. It details the
+        # feature name, the prompt that will be asked, the selections of
+        # commands available for user input, and the function that will be
+        # executed when the feature is accessed.
+        lounge_dict = self.generate_feature_dict(
+            self.features[0],
+            "Enter the lounge?",
+            ["press Enter", "exit"],
+            self.move_hub,
+            ["lounge"],
+            # Disables validation and lets user type in unrestricted lines
+            # of string because entering does not require a specific format.
+            custom_match=".*"
+        )
+
+        match_dict = self.generate_feature_dict(
+            self.features[1],
+            "Start a match?",
+            ["press Enter", "exit"],
+            self.move_hub,
+            ["match"],
+            # Disables validation and lets user type in unrestricted lines
+            # of string because entering does not require a specific format.
+            custom_match=".*"
+        )
+
+        features_list = [lounge_dict, match_dict]
+        # self.enter_logic defines what happens when the user enters the hub,
+        # and returns where the user wants to go next once they decide to leave
+        # the lounge, stored in new_hub variable.
+        move_to = self.enter_logic(features_list)
+        # Defines the behavior of the "exit" command
+        if move_to == "exit":
+            sys.exit()
+        else:
+            # Move to the new hub.
+            return move_to
