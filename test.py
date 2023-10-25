@@ -51,6 +51,6 @@
 #         """
 
 
-from player_lounge import PlayerLounge
+from hubs import PlayerLounge
 
 player_lounge = PlayerLounge()

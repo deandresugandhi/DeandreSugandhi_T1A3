@@ -18,9 +18,9 @@ from termcolor import colored
 # Local Modules
 from custom_errors import ColumnFullError
 from utilities import (
-    clear_screen, 
-    reset_screen, 
-    validate_input, 
+    clear_screen,
+    reset_screen,
+    validate_input,
     change_piece_properties
 )
 

@@ -10,10 +10,12 @@ class ColumnFullError(Exception):
     def __init__(self, message):
         super().__init__(message)
 
+
 class UsernameError(Exception):
     """Error raised when username or player name does not match format."""
     def __init__(self, message):
         super().__init__(message)
+
 
 class ColorError(Exception):
     """Error raised when a color value is not a valid color for termcolor."""

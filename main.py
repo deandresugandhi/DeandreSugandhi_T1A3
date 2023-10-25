@@ -1,16 +1,15 @@
-
-# Standard Library Modules
 # Third-party library Modules
+import atexit
+import colorama
+
 # Local Modules
 from game_board import Board, Piece
 from win_conditions import VictoryChecker
-from game_engine import game_in_progress, game_complete, game_reset
+from game_engine import game_in_progress, game_complete, game_reset, game_start
 from start_menu import game_setup, start_screen, MainLobby
 from user_utils import User, reset_login
-from player_lounge import generate_users_record, PlayerLounge
-from utilities import validate_input
-import atexit
-import colorama
+from hubs import generate_users_record, PlayerLounge
+
 
 reset_login()
 atexit.register(reset_login)
@@ -42,6 +41,7 @@ while True:
             continue
         case "match":
             while True:
+                game_start(players)
                 game_result = game_in_progress(board, players, referee)
                 post_game = game_complete(game_result, users)
                 if post_game.lower() == "y":
