@@ -3,6 +3,7 @@ A module containing classes that represents the objects involved to play
 Connect Four, namely the game board and game pieces.
 """
 
+
 # Standard Library Modules
 import re
 
@@ -73,7 +74,7 @@ class Piece:
         """
         A method to set the piece color. Termcolor module's colored() function
         is used to test the value assigned as the _color attribute. Termcolor
-        will raise KeyError if it fails to set the value as color to the string.
+        will raise KeyError if it fails to color the string using the value.
 
         Raises ColorError if KeyError is raised by termcolor module. If no error
         is raised, the _color attribute is set to the value of color in lower

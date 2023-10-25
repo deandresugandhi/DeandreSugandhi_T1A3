@@ -1,24 +1,58 @@
-import subprocess
+"""
+Module that contains utility functions for general use by other modules of the
+program.
+"""
+
+
+# Standard Library Modules
 import re
+import subprocess
+import json
+
+# Third-party Library Modules
 from maskpass import askpass
 from termcolor import colored
-import json
 
 
 def clear_screen():
+    """A function that clears the terminal."""
     try:
         subprocess.run("cls", shell=True, check=True)
     except subprocess.CalledProcessError:
         subprocess.run("clear", shell=True, check=True)
 
+
 def reset_screen(board):
+    """A function that clears the terminal, and displays updated game board."""
     clear_screen()
     board.display()
 
-def validate_input(prompt, match, message="Invalid input, please try again: ", masked = False, case_sensitive = False):
-    user_input = input(prompt) if masked == False else askpass(prompt)
+
+def validate_input(
+        prompt,
+        match,
+        message="Invalid input, please try again: ",
+        masked = False,
+        case_sensitive = False
+    ):
+    """
+    A function that checks a user input to ensure they match a given RegEx
+    pattern. Loops until valid input is made.
+
+    Args:
+    1. prompt (str): The prompt to displayed to the user to type in an input.
+    2. match (str): The RegEx pattern to match the user input.
+    3. message (str): The message to display to the user if the input does not
+       match the RegEx pattern.
+    4. masked (bool): Defines whether the input will be masked using the
+       maskpass module.
+    5. case_sensitive (bool): Defines whether the input is case sensitive.
+
+    Returns the user input once it is considered valid.
+    """
+    user_input = input(prompt) if masked is False else askpass(prompt)
     while True:
-        if case_sensitive == False:
+        if case_sensitive is False:
             if re.fullmatch(match, user_input.lower()):
                 clear_screen()
                 return user_input
@@ -26,65 +60,152 @@ def validate_input(prompt, match, message="Invalid input, please try again: ", m
             if re.fullmatch(match, user_input):
                 clear_screen()
                 return user_input
-        user_input = input(message) if masked == False else askpass(message)
+        # If user input is considered invalid, user is asked to input again
+        # but with a different prompt message (the message parameter).
+        user_input = input(message) if masked is False else askpass(message)
+
+
+def validate_username(prompt, match):
+    """
+    Function to define how username validation works. Input loops until player
+    enters a valid username format.
+
+    Args:
+    1. prompt (str): The prompt that will be displayed to the user to input
+       username.
+    2. match (str): The regular expression (RegEx) that will be used to validate 
+       username.
+
+    Returns the user input once it is considered valid.
+    """
+    user_input = input(prompt)
+    with open("users.json", "r", encoding="utf-8") as file:
+        users = json.load(file)
+
+    # Loops until a valid username format is entered.
+    while True:
+        # Matches to the username format.
+        if not re.fullmatch(match, user_input):
+            user_input = input("Invalid username, please try again: ")
+            continue
+        # If username is in the right format, but is the name of a guest
+        # account, loop starts again.
+        if user_input.lower == "guest" or "guest1" or "guest2":
+            user_input = input("That's a guest account. Please try again: ")
+            continue
+        # If username is in the right format and is not a guest account, but
+        # there is another user account associated with it, loop starts again.
+        for user in users:
+            if user_input == user.get("username"):
+                user_input = input(f"Username {user_input} is taken, please try again: ")
+                break
+        else:
+            clear_screen()
+            return user_input
+
 
 def validate_color(prompt):
+    """
+    Function to define how color validation works. Input loops until player
+    enters a valid color format.
+
+    Args:
+    1. prompt (str): The prompt that will be displayed to the user to input
+       color.
+
+    Returns the user input once it is considered valid.
+    """
     user_input = input(prompt)
     while True:
         try:
             colored("test", user_input)
-        except:
+        # Termcolor raises KeyError if it fails to color the string using the
+        # inputted value.
+        except KeyError:
             user_input = input("Invalid color, please try again: ")
         else:
             clear_screen()
             return user_input
 
+
 def update_attributes(piece, user, details):
+    """
+    Function to update the Piece and User instance using the details read from
+    users.json.
+
+    Args:
+    1. piece (Piece): The Piece instance whose attributes are being updated.
+    2. user (User): The User instance whose attributes are being updated.
+    3. details (dict): The dictionary storing a user's details from which to
+       update the Piece and User instances.
+    """
     piece.player_name = details.get("username")
     piece.color = details.get("color")
     piece.piece_type = details.get("piece_type")
     user.username = details.get("username")
     user.games_played = details.get("games_played")
-    user.wins = details.get("wins") 
+    user.wins = details.get("wins")
     user.losses = details.get("losses")
     user.win_ratio = details.get("win_ratio")
 
+
 def change_piece_properties(player):
+    """
+    Function to modify the attributes of a Piece instance, namely its color and
+    piece type. Input loops until player enters a valid color and piece.
+
+    Args:
+    1. player (Piece): The Piece instance whose attributes are being modified.
+    """
     if player.player_name.lower() in ["guest", "guest1", "guest2"]:
         print("Guest accounts cannot customize pieces.")
     else:
         while True:
             player.color = validate_color(
                 ("Pick your piece color.\n"
-                "Available options: black, red, green, yellow, blue, magenta, cyan, light_grey, "
-                "dark_grey, light_red, light_green, light_yellow, light_blue, light_magenta, light_cyan.\n"
-                f"{player.player_name}'s new color: "),
+                "Available options: "
+                f"{colored('black', 'black')}, "
+                f"{colored('red', 'red')}, "
+                f"{colored('green', 'green')}, "
+                f"{colored('yellow', 'yellow')}, "
+                f"{colored('blue', 'blue')}, "
+                f"{colored('magenta', 'magenta')}, "
+                f"{colored('cyan', 'cyan')}, "
+                f"{colored('light_grey', 'light_grey')}, "
+                f"{colored('dark_grey', 'dark_grey')}, "
+                f"{colored('light_red', 'light_red')}, "
+                f"{colored('light_green', 'light_green')}, "
+                f"{colored('light_yellow', 'light_yellow')}, "
+                f"{colored('light_blue', 'light_blue')}, "
+                f"{colored('light_magenta', 'light_magenta')}, "
+                f"{colored('light_cyan.', 'light_cyan')}\n"
+                f"{player.player_name}'s new color: ")
             )
-
             player.piece_type = validate_input(
                 ("Pick your piece type.\n"
-                "Your piece type can only contain a single uppercase (A-Z) or lowercase letter(a-z), or a single number(0-9).\n"
+                "Your piece type can only contain a single uppercase (A-Z) or "
+                "lowercase letter(a-z), or a single number(0-9).\n"
                 "Piece Type: "),
                 "^[a-zA-Z0-9]$",
                 "Invalid piece type, please try again: ",
                 case_sensitive = True
             )
 
+            # Displays a preview of how their piece will be displayed on the
+            # game board.
             print(f"preview: {colored(player.piece_type, player.color)}")
-            
+
             piece_satisfied = validate_input(
-                ("Confirm piece type and color? \n" 
+                ("Confirm piece type and color?\n"
                 "(y / n): "),
                 "^(y|n)$"
             )
-
-            clear_screen() 
+            clear_screen()
             if piece_satisfied == "n":
-                continue 
-            else:
-                break
+                continue
+            break
 
-        with open("users.json", "r") as file:
+        with open("users.json", "r", encoding="utf-8") as file:
             users = json.load(file)
 
         for user in users:
@@ -92,10 +213,7 @@ def change_piece_properties(player):
                 user["color"] = player.color
                 user["piece_type"] = player.piece_type
                 break
-                
-        with open("users.json", "w") as file:
+
+        with open("users.json", "w", encoding="utf-8") as file:
             json.dump(users, file, indent=4)
-
-
-
-            
+     

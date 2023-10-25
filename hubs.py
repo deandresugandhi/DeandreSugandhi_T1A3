@@ -4,6 +4,7 @@ of a hub-object (GameHub), and two hub-like classes inheriting attributes
 and methods from GameHub itself.
 """
 
+
 # Standard Library Modules
 import json
 import operator
@@ -14,18 +15,6 @@ from termcolor import colored
 
 #Local Modules
 from utilities import change_piece_properties, clear_screen, validate_input
-
-
-def generate_users_record():
-    """A function to generate initial all users' game records"""
-    with open("users.json", "r", encoding="utf-8") as file:
-        users_record = json.load(file)
-    # Delete keys that has nothing to do with game history
-    key_del_list = ["pin", "color", "piece_type", "logged_in"]
-    for user in users_record:
-        for key in key_del_list:
-            del user[key]
-    return users_record
 
 
 class GameHub:
@@ -66,7 +55,7 @@ class GameHub:
 
     @property
     def prompt(self):
-        """A method to acess the hub's welcome message"""
+        """A method to access the hub's welcome message"""
         return self._prompt
 
     def generate_feature_dict(
@@ -200,14 +189,14 @@ class GameHub:
                 # Finds the feature in features_list that matches user command.
                 for feature_dict in features_list:
                     if feature_dict.get("feature") == command.lower():
-                        # Access the feature. Returns a value once the user is
-                        # done using the feature.
+                        # Access the feature. Returns a value once the user
+                        # is done with a feature.
                         move_to = self.access_feature(feature_dict)
                         # If the user exits the feature, False is returned, and
                         # loop breaks. User goes back to the hub.
                         if move_to is False:
                             break
-                        # If the user leaves the feature by moving to another
+                        # If the user exits a feature by moving to another
                         # hub, returns the name of the new hub.
                         return move_to
             # If command is exit, verify if the user really wants to exit. If
@@ -465,7 +454,7 @@ class MainLobby(GameHub):
     def visuals(self):
         """A method to access the hub's ASCII art representation."""
         return self._visuals
-    
+
     def enter(self):
         """
         A method that defines what happens when a player decide to enter the

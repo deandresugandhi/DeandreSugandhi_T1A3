@@ -1,5 +1,11 @@
+"""
+Module that defines how the game starts once launched. Includes functions that
+display the start screen, generate and validate new user account, 
+store accounts, validate login to existing account, and use a guest account.
+"""
+
+
 # Standard Library Modules
-import re
 import json
 
 #Third-party Library Modules
@@ -12,7 +18,8 @@ from utilities import (
     clear_screen,
     validate_input,
     update_attributes,
-    validate_color
+    validate_color,
+    validate_username
 )
 
 
@@ -37,43 +44,6 @@ def start_screen():
     input(f"{' ' * 16} Press Enter to continue!")
 
     clear_screen()
-
-
-def validate_username(prompt, match):
-    """
-    Function to define how username validation works. Input loops until player
-    enters a valid username format.
-
-    Args:
-    1. prompt (str): The prompt that will be displayed to the user to input
-       username.
-    2. match (str): The regular expression (RegEx) that will be used to validate 
-       username.
-    """
-    user_input = input(prompt)
-    with open("users.json", "r", encoding="utf-8") as file:
-        users = json.load(file)
-
-    # Loops until a valid username format is entered.
-    while True:
-        # Matches to the username format.
-        if not re.fullmatch(match, user_input):
-            user_input = input("Invalid username, please try again: ")
-            continue
-        # If username is in the right format, but is the name of a guest
-        # account, loop starts again.
-        if user_input.lower == "guest" or "guest1" or "guest2":
-            user_input = input("That's a guest account. Please try again: ")
-            continue
-        # If username is in the right format and is not a guest account, but
-        # there is another user account associated with it, loop starts again.
-        for user in users:
-            if user_input == user.get("username"):
-                user_input = input(f"Username {user_input} is taken, please try again: ")
-                break
-        else:
-            clear_screen()
-            return user_input
 
 
 def store_account(username, pin, color, piece_type):
@@ -130,8 +100,8 @@ def validate_account(username, pin):
                 return "Duplicate"
             # When username and pin is validated, user is set to logged in.
             user["logged_in"] = "y"
-            with open("users.json", "w", encoding="utf-4") as file:
-                json.dump(users, file, encoding="utf-4", indent=4)
+            with open("users.json", "w", encoding="utf-8") as file:
+                json.dump(users, file, indent=4)
 
             return user
     # If username and pin combination is not found, invalidates login attempt.
@@ -208,7 +178,7 @@ def game_setup(player, user):
                 "light_yellow, light_blue, light_magenta, light_cyan.\n"
                 "Color: "),
             )
-            
+
             new_player_piece_type = validate_input(
                 ("Pick your piece type.\n"
                 "Your piece type determines the form that represents your "
@@ -238,7 +208,7 @@ def game_setup(player, user):
         # If they don't want to create a new account, a guest account is used.
         elif account_type.lower() == "guest":
             print(f"Using guest account. You will be playing as {player.player_name}.")
-      
+
         input("Press enter to continue!")
         clear_screen()
 
@@ -248,8 +218,8 @@ def game_setup(player, user):
             existing_username = input("Enter your username: ")
             existing_pin = askpass("Enter your PIN: ")
             account_details = validate_account(existing_username, existing_pin)
-
-            if account_details == None:
+            # They are given the option to try again, or use a guest account.
+            if account_details is None:
                 try_again = validate_input(
                     ("Invalid username or PIN. Try again or use a guest account?\n"
                      "(again / guest): "),
@@ -257,19 +227,21 @@ def game_setup(player, user):
                 )
                 if try_again.lower() == "again":
                     continue
-                elif try_again.lower() == "guest":
-                    print(f"Using guest account. You will be playing as {player.player_name}")
+                if try_again.lower() == "guest":
+                    print(
+                        "Using guest account. You will be playing " 
+                        f"as {player.player_name}"
+                    )
                     break
-            
             elif account_details == "Duplicate":
-                print(f"{existing_username} is already logged in. Please try again: ")
+                print(f"{existing_username} is already logged in. "
+                      "Please try again: "
+                )
             else:
                 update_attributes(player, user, account_details)
-                print(f"Successfully logged in! You will be playing as {colored(player.player_name, player.color)}.")
+                print("Successfully logged in! You will be playing "
+                      f"as {colored(player.player_name, player.color)}."
+                )
                 input("Press enter to continue!")
                 clear_screen()
                 break
-    
-
-
-
