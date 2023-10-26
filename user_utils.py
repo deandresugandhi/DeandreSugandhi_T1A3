@@ -126,7 +126,7 @@ class User:
     3. _wins (int): Total number of games won by the user.
     4. _losses (int): Total number of games lost by the user.
     5. _win_ratio (float): Games won + 1/2 games tied divided by total games
-       played.
+       played times 100.
     """
     def __init__(self, username, games_played, wins, losses, win_ratio):
         self._username = username
@@ -188,7 +188,7 @@ class User:
     @property
     def win_ratio(self):
         """A method to access win ratio of a user."""
-        return round(float(self._win_ratio), 1)
+        return round(float(self._win_ratio), 2)
 
     @win_ratio.setter
     def win_ratio(self, win_ratio):
@@ -213,8 +213,11 @@ class User:
                 self.losses += 0 if winner.player_name == self.username else 1
 
             draws = self.games_played - (self.wins + self.losses)
-            self.win_ratio = ((self.wins + (0.5 * draws)) / self.games_played)
-
+            self.win_ratio = (
+                ((self.wins + (0.5 * draws)) / self.games_played)
+                * 100
+                )
+      
             # Stores updated records in users.json.
             with open("users.json", "r", encoding="utf-8") as file:
                 users = json.load(file)

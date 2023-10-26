@@ -2,12 +2,23 @@
     {
         "username": "tester123",
         "pin": "1923",
-        "games_played": 0,
-        "wins": 0,
+        "games_played": 5,
+        "wins": 2,
+        "losses": 1,
+        "win_ratio": 60.0,
+        "color": "black",
+        "piece_type": "Z",
+        "logged_in": "n"
+    },
+    {
+        "username": "tester321",
+        "pin": "1009",
+        "games_played": 2,
+        "wins": 1,
         "losses": 0,
-        "win_ratio": 0,
-        "color": "cyan",
-        "piece_type": "K",
+        "win_ratio": 75.0,
+        "color": "light_yellow",
+        "piece_type": "B",
         "logged_in": "n"
     }
 ]
