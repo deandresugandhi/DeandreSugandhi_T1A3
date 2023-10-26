@@ -32,11 +32,13 @@ def check_json():
                 with open("users.json", "w", encoding="utf-8") as file:
                     json.dump(users, file, indent=4)
             else:
-                users = json.load(file)
+                with open("users.json", "r", encoding="utf-8") as file:
+                    users = json.load(file)
     # Creates users.json as an empty list if the file is missing
     except FileNotFoundError:
         with open("users.json", "w", encoding="utf-8") as file:
             json.dump([], file, indent=4)
+            users = []
     except json.JSONDecodeError as error:
         # If users.json is invalid, warns user and exit.
         print(
@@ -67,7 +69,7 @@ def check_json():
                         "dictionaries. Please backup any user data from the "
                         "file, and fix the issue. Exiting game now."
                 )
-                sys.exit()
+                    sys.exit()
     return users
 
 
@@ -123,7 +125,8 @@ class User:
     2. _games_played (int): Total number of games played by the user.
     3. _wins (int): Total number of games won by the user.
     4. _losses (int): Total number of games lost by the user.
-    5. _win_ratio (float): Games won divided by games lost by the user.
+    5. _win_ratio (float): Games won + 1/2 games tied divided by total games
+       played.
     """
     def __init__(self, username, games_played, wins, losses, win_ratio):
         self._username = username
@@ -208,7 +211,9 @@ class User:
             if winner is not None:
                 self.wins += 1 if winner.player_name == self.username else 0
                 self.losses += 0 if winner.player_name == self.username else 1
-                self.win_ratio = self.wins / self.losses
+
+            draws = self.games_played - (self.wins + self.losses)
+            self.win_ratio = ((self.wins + (0.5 * draws)) / self.games_played)
 
             # Stores updated records in users.json.
             with open("users.json", "r", encoding="utf-8") as file:
@@ -232,6 +237,6 @@ class User:
             print(f"Games played: {self.games_played}")
             print(f"Wins: {self.wins}")
             print(f"Losses: {self.losses}")
-            print(f"Win ratio: {self.win_ratio}")
+            print(f"Win ratio: {self.win_ratio}%")
         else:
             print("You are using a guest account!")

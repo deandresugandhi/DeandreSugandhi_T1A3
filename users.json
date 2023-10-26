@@ -1,0 +1,13 @@
+[
+    {
+        "username": "tester123",
+        "pin": "1923",
+        "games_played": 0,
+        "wins": 0,
+        "losses": 0,
+        "win_ratio": 0,
+        "color": "cyan",
+        "piece_type": "K",
+        "logged_in": "n"
+    }
+]

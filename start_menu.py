@@ -65,7 +65,7 @@ def store_account(username, pin, color, piece_type):
         "games_played": 0,
         "wins": 0,
         "losses": 0,
-        "win_ratio": 0,
+        "win_ratio": float(0),
         "color": color,
         "piece_type": piece_type,
         "logged_in": "y"
@@ -172,11 +172,23 @@ def game_setup(player, user):
 
             new_player_color = validate_color(
                 ("Pick your piece color.\n"
-                "Your piece color determines the color of your piece on the board. "
-                "Available options: black, red, green, yellow, blue, magenta, "
-                "cyan, light_grey, dark_grey, light_red, light_green, "
-                "light_yellow, light_blue, light_magenta, light_cyan.\n"
-                "Color: "),
+                "Available options: "
+                f"{colored('black', 'black')}, "
+                f"{colored('red', 'red')}, "
+                f"{colored('green', 'green')}, "
+                f"{colored('yellow', 'yellow')}, "
+                f"{colored('blue', 'blue')}, "
+                f"{colored('magenta', 'magenta')}, "
+                f"{colored('cyan', 'cyan')}, "
+                f"{colored('light_grey', 'light_grey')}, "
+                f"{colored('dark_grey', 'dark_grey')}, "
+                f"{colored('light_red', 'light_red')}, "
+                f"{colored('light_green', 'light_green')}, "
+                f"{colored('light_yellow', 'light_yellow')}, "
+                f"{colored('light_blue', 'light_blue')}, "
+                f"{colored('light_magenta', 'light_magenta')}, "
+                f"{colored('light_cyan.', 'light_cyan')}\n"
+                f"{player.player_name}'s new color: ")
             )
 
             new_player_piece_type = validate_input(
@@ -209,8 +221,6 @@ def game_setup(player, user):
         elif account_type.lower() == "guest":
             print(f"Using guest account. You will be playing as {player.player_name}.")
 
-        input("Press enter to continue!")
-        clear_screen()
 
     # If they are an existing user, they can login to their user account.
     else:
@@ -242,6 +252,7 @@ def game_setup(player, user):
                 print("Successfully logged in! You will be playing "
                       f"as {colored(player.player_name, player.color)}."
                 )
-                input("Press enter to continue!")
-                clear_screen()
                 break
+
+    input("Press enter to continue!")
+    clear_screen()

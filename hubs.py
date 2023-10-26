@@ -247,7 +247,7 @@ class PlayerLounge(GameHub):
      _/                                                \_
     /                                                    \
             """,
-            features=["high_score", "customize", "user_info"],
+            features=["customize", "user_info", "high_score"],
             prompt=(
                 "Welcome to the player lounge! Here you can customize" 
                 "your piece and access player statistics." 
@@ -295,7 +295,7 @@ class PlayerLounge(GameHub):
                 print(f"Games played: {user['games_played']}")
                 print(f"Wins: {user['wins']}")
                 print(f"Losses: {user['losses']}")
-                print(f"Win ratio: {user['win_ratio']}")
+                print(f"Win ratio: {user['win_ratio']}%")
                 break
         else:
             print("Invalid username.")
@@ -323,7 +323,7 @@ class PlayerLounge(GameHub):
             print(f"Games played: {user['games_played']}")
             print(f"Wins: {user['wins']}")
             print(f"Losses: {user['losses']}")
-            print(f"Win ratio: {user['win_ratio']}\n\n\n")
+            print(f"Win ratio: {user['win_ratio']}%\n\n\n")
             count += 1
             # Display 5 records. Or if there are fewer than 5 records in
             # users record, display all.
@@ -367,14 +367,8 @@ class PlayerLounge(GameHub):
         # feature name, the prompt that will be asked, the selections of
         # commands available for user input, and the function that will be
         # executed when the feature is accessed.
-        high_score_dict = self.generate_feature_dict(
-            self.features[0],
-            "Which high-score board do you want to view?",
-            ["wins", "games_played", "win_ratio", "exit"],
-            self.display_high_scorer,
-        )
         customize_dict = self.generate_feature_dict(
-            self.features[1],
+            self.features[0],
             "Which player is customizing?",
             ["p1", "p2", "exit"],
             self.customization,
@@ -382,7 +376,7 @@ class PlayerLounge(GameHub):
             [players],
         )
         user_info_dict = self.generate_feature_dict(
-            self.features[2],
+            self.features[1],
             "Which user do you want to view?",
             ["Type username", "exit"],
             self.display_user_details,
@@ -390,8 +384,14 @@ class PlayerLounge(GameHub):
             # of string as a keyword for username search.
             custom_match=".*"
         )
+        high_score_dict = self.generate_feature_dict(
+            self.features[2],
+            "Which high-score board do you want to view?",
+            ["wins", "games_played", "win_ratio", "exit"],
+            self.display_high_scorer,
+        )
 
-        features_list = [high_score_dict, customize_dict, user_info_dict]
+        features_list = [customize_dict, user_info_dict, high_score_dict]
 
         # self.enter_logic defines what happens when the user enters the hub,
         # and returns where the user wants to go next once they decide to leave
