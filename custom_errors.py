@@ -28,3 +28,9 @@ class PieceTypeError(Exception):
     """Error raised when piece type does not match format."""
     def __init__(self, message):
         super().__init__(message)
+
+
+class InvalidCommandError(Exception):
+    """Error raised when general command does not match format."""
+    def __init__(self, message):
+        super().__init__(message)

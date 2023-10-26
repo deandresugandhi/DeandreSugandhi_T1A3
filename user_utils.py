@@ -12,9 +12,63 @@ user data.
 # Standard Library Modules
 import json
 import re
+import sys
 
 # Local Modules
 from custom_errors import UsernameError
+
+
+def check_json():
+    """
+    A function to ensure users.json exists, and that it is in the right format.
+    """
+    # Error handling if users.json is not found or is an invalid .json file.
+    try:
+        with open("users.json", "r", encoding="utf-8") as file:
+            content = file.read()
+            # If users.json is completely empty, make it into an empty list.
+            if not content.strip():
+                users = []
+                with open("users.json", "w", encoding="utf-8") as file:
+                    json.dump(users, file, indent=4)
+            else:
+                users = json.load(file)
+    # Creates users.json as an empty list if the file is missing
+    except FileNotFoundError:
+        with open("users.json", "w", encoding="utf-8") as file:
+            json.dump([], file, indent=4)
+    except json.JSONDecodeError as error:
+        # If users.json is invalid, warns user and exit.
+        print(
+            "JSON decoding failed. If users.json has been manually edited, "
+            "there may have been an issue with the format of the file. "
+            "Please backup any user data from users.json, and ensure the "
+            "file is in the right format before starting the game. "
+            "Exiting game now."    
+        )
+        print(error)
+        sys.exit()
+    else:
+        # Warns user and exits the game if users.json exists but is not a list.
+        if not isinstance(users, list):
+            print(
+                "Data type error. users.json should be a list. Please backup "
+                "any user data from the file, and fix the issue. "
+                "Exiting game now."
+            )
+            sys.exit()
+        # Warns user and exits the game if users.json is a list but any of its
+        # elements is not a dictionary. Empty lists are exempt.
+        if users != []:
+            for user in users:
+                if not isinstance(user, dict):
+                    print(
+                        "Data type error. All elements in users.json should be "
+                        "dictionaries. Please backup any user data from the "
+                        "file, and fix the issue. Exiting game now."
+                )
+                sys.exit()
+    return users
 
 
 def generate_users_record():
@@ -29,8 +83,10 @@ def generate_users_record():
     return users_record
 
 
-def reset_login():
-    """Function to logout all users from the game."""
+def reset_log():
+    """
+    Function to ensure all users are logged out from the game.
+    """
     with open("users.json", "r", encoding="utf-8") as file:
         users = json.load(file)
     if users != []:

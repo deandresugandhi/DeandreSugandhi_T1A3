@@ -13,6 +13,9 @@ import json
 from maskpass import askpass
 from termcolor import colored
 
+# Local Modules
+from custom_errors import InvalidCommandError, UsernameError, ColorError
+
 
 def clear_screen():
     """A function that clears the terminal."""
@@ -31,7 +34,7 @@ def reset_screen(board):
 def validate_input(
         prompt,
         match,
-        message="Invalid input, please try again: ",
+        message="Invalid command, please try again: ",
         masked = False,
         case_sensitive = False
     ):
@@ -52,17 +55,19 @@ def validate_input(
     """
     user_input = input(prompt) if masked is False else askpass(prompt)
     while True:
-        if case_sensitive is False:
-            if re.fullmatch(match, user_input.lower()):
-                clear_screen()
-                return user_input
-        else:
-            if re.fullmatch(match, user_input):
-                clear_screen()
-                return user_input
-        # If user input is considered invalid, user is asked to input again
-        # but with a different prompt message (the message parameter).
-        user_input = input(message) if masked is False else askpass(message)
+        try:
+            if case_sensitive is False:
+                if re.fullmatch(match, user_input.lower()):
+                    clear_screen()
+                    return user_input
+            else:
+                if re.fullmatch(match, user_input):
+                    clear_screen()
+                    return user_input
+            raise InvalidCommandError(message)
+        # Ask for input with a different prompt (message) if input is invalid
+        except InvalidCommandError as error:
+            user_input = input(error) if masked is False else askpass(error)
 
 
 def validate_username(prompt, match):
@@ -84,24 +89,23 @@ def validate_username(prompt, match):
 
     # Loops until a valid username format is entered.
     while True:
+        try:
         # Matches to the username format.
-        if not re.fullmatch(match, user_input):
-            user_input = input("Invalid username, please try again: ")
-            continue
-        # If username is in the right format, but is the name of a guest
-        # account, loop starts again.
-        if user_input.lower == "guest" or "guest1" or "guest2":
-            user_input = input("That's a guest account. Please try again: ")
-            continue
-        # If username is in the right format and is not a guest account, but
-        # there is another user account associated with it, loop starts again.
-        for user in users:
-            if user_input == user.get("username"):
-                user_input = input(f"Username {user_input} is taken, please try again: ")
-                break
-        else:
+            if not re.fullmatch(match, user_input):
+                raise UsernameError("Invalid username, please try again: ")
+            # If username has right format, but is guest, loops again.
+            if user_input.lower in ("guest", "guest1", "guest2"):
+                raise UsernameError("That's a guest account, please try again: ")
+            # If username has right format and is not guest, but is associated
+            # with another user account, loops again.
+            for user in users:
+                if user_input == user.get("username"):
+                    raise UsernameError(f"Username {user_input} is taken, "
+                                        "please try again: ")
             clear_screen()
             return user_input
+        except UsernameError as error:
+            user_input = input(error)
 
 
 def validate_color(prompt):
@@ -118,14 +122,17 @@ def validate_color(prompt):
     user_input = input(prompt)
     while True:
         try:
-            colored("test", user_input)
-        # Termcolor raises KeyError if it fails to color the string using the
-        # inputted value.
-        except KeyError:
-            user_input = input("Invalid color, please try again: ")
-        else:
-            clear_screen()
-            return user_input
+            try:
+                colored("test", user_input)
+            # Termcolor raises KeyError if it fails to color the string using
+            # the inputted value.
+            except KeyError as exc:
+                raise ColorError("Invalid color, please try again: ") from exc
+            else:
+                clear_screen()
+                return user_input
+        except ColorError as error:
+            user_input = input(error)
 
 
 def update_attributes(piece, user, details):

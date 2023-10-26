@@ -12,14 +12,16 @@ from game_board import Board, Piece
 from win_conditions import VictoryChecker
 from game_engine import game_in_progress, game_complete, game_reset, game_start
 from start_menu import game_setup, start_screen
-from user_utils import User, reset_login, generate_users_record
+from user_utils import User, reset_log, generate_users_record, check_json
 from hubs import PlayerLounge, MainLobby
 
 
-# Start program with logging all players out as a fail-safe.
-reset_login()
+# Start program by ensuring users.json file and is in the right format,
+# and logging all players out as a fail-safe
+check_json()
+reset_log()
 # Log all players out when program exits.
-atexit.register(reset_login)
+atexit.register(reset_log)
 # Colorama.init ensures termcolor also works on Windows and other systems.
 colorama.init(autoreset=True)
 
