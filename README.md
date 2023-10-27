@@ -31,7 +31,7 @@ The players are also able to input two additional commands in addition to a colu
 
 The feature allows a user to create their own account to store personal game data such as total games played, wins, losses, win ratio, piece color, piece type, etc. User data is stored in a JSON file named __"users.json"__ located in the root directory, in the form of a list, where each element is a dictionary representing a user account storing each unique user's information.
 
-At the start of the game, before being able to access the game's main features, both players are prompted to setup their accounts. They can either login to their existing personal accounts, create new personal accounts, or use guest accounts which do not have full access to the functionalities of the game such as piece customization, game statistics, etc. Creating personal accounts requires users to input a unique username (with a specific format) and a four-digit PIN for registration. Username / PIN will be refused if either one is in an invalid format or the username is already associated with another account. The program also stores the login status of each user account, meaning that a player cannot attempt to login to an account that is already currently logged in.
+At the start of the game, before being able to access the game's main features, both players are prompted to setup their accounts. They can either login to their existing personal accounts, create new personal accounts, or use guest accounts which do not have full access to the functionalities of the game such as piece customization, game statistics, etc. Creating personal accounts requires users to input a unique username (with a specific format) and a four-digit PIN for registration. Username / PIN will be refused (errors are raised and handled accordingly) if either one is in an invalid format or the username is already associated with another account. The program also stores the login status of each user account, meaning that a player cannot attempt to login to an account that is already currently logged in.
 
 _Notes: For now, account information including username and PIN are not encrypted when stored into the JSON file. This means that anyone having access to the JSON file can easily read all account information. This warning is displayed in-game when a user attempts to create a personal account._
 
@@ -71,10 +71,51 @@ I used the GitHub project's default labels as well as my own custom labels to he
 
 The __Roadmap__ and __Table__ view is helpful to add due dates and keep track of schedule, though in the end they are not really followed as my initial estimates of how long each card would take to complete turned out to be quite off, though it does help in deciding how to prioritize my time for each task. New features are also added as I work on the app and got new ideas, from which I checked the __Roadmap__ and due dates for each task; if I was well ahead of schedule, I would go on to try and implement the new features.
 
-__The link to the GitHub project can be found here: [T1A3 GitHub Project](https://github.com/users/deandresugandhi/projects/1)__
+__Link to the GitHub implementation plan: [T1A3 GitHub Project](https://github.com/users/deandresugandhi/projects/1)__
 
 __A more detailed, chronologically ordered series of screenshots can be accessed in the [More Screenshots](#more-screenshots) section of this document.__
 
+### End State of Implementation Plan (Screenshots)
+
+#### Game Board
+
+![Game Board](./docs/plan-game-board.png)
+
+#### Main Lobby
+
+![Main Lobby](./docs/plan-main-lobby.png)
+
+#### Player Input
+
+![Player Input](./docs/plan-player-input.png)
+
+#### Player Lounge
+
+![Player Lounge](./docs/plan-player-lounge.png)
+
+#### Scoring System
+
+![Scoring System](./docs/plan-scoring-system.png)
+
+#### Start Menu
+
+![Start Menu](./docs/plan-start-menu.png)
+
+#### User Account System
+
+![User Account System](./docs/plan-user-account-system.png)
+
+#### Win-Draw Conditions
+
+![Win-Draw Conditions](./docs/plan-win-draw-conditions.png)
+
+#### Roadmap View
+
+![Roadmap View](./docs/plan-roadmap-view.png)
+
+#### Table View
+
+![Table View](./docs/plan-table-view.png)
 
 
 
