@@ -20,7 +20,7 @@ then
   exit 1
 fi
 
-if [ ! -d "venv"]
+if [ ! -d "venv" ]
 then 
   echo "Creating virtual environment."
   python3 -m venv venv

@@ -77,171 +77,78 @@ __A more detailed, chronologically ordered series of screenshots can be accessed
 
 ### End State of Implementation Plan (Screenshots)
 
-#### Game Board
+#### Game Board Card
 
 ![Game Board](./docs/plan-game-board.png)
 
-#### Main Lobby
+#### Main Lobby Card
 
 ![Main Lobby](./docs/plan-main-lobby.png)
 
-#### Player Input
+#### Player Input Card
 
 ![Player Input](./docs/plan-player-input.png)
 
-#### Player Lounge
+#### Player Lounge Card
 
 ![Player Lounge](./docs/plan-player-lounge.png)
 
-#### Scoring System
+#### Scoring System Card
 
 ![Scoring System](./docs/plan-scoring-system.png)
 
-#### Start Menu
+#### Start Menu Card
 
 ![Start Menu](./docs/plan-start-menu.png)
 
-#### User Account System
+#### User Account System Card
 
 ![User Account System](./docs/plan-user-account-system.png)
 
-#### Win-Draw Conditions
+#### Win-Draw Conditions Card
 
 ![Win-Draw Conditions](./docs/plan-win-draw-conditions.png)
 
-#### Roadmap View
+#### Roadmap View Card
 
 ![Roadmap View](./docs/plan-roadmap-view.png)
 
-#### Table View
+#### Table View Card
 
 ![Table View](./docs/plan-table-view.png)
 
+## Help
 
+### System Requirements
 
+This application requires Python 3 to be installed in your system. If you haven't installed it already, refer to this [link](https://www.python.org/downloads/). To check if Python is installed in your system, run the following command in your terminal:
 
-### Experiences
-The "Experiences" page contains my educational and professional history. It is divided into three HTML sections, one for education, one for work, and one for my IT-related projects. The information is displayed through the use of two article elements with flexbox layout, namely "Date" and "Description". "Date" is written as a vertically-oriented text next to "Description" which details the education or work history.
+```
+python --version
+```
 
-On the bottom of the page is a clickable button which downloads my resume on click.
+This should display the Python version installed on your system. Python 3.12 is recommended for this application. Refer to the link mentioned above if your Python version is lower.
 
-### About
-The "About" page provides further information about me, separated into three sections, namely background, skills, and hobbies. 
+The application also uses pip to install the application's dependencies. It should come bundled with Python 3.4 and newer versions. Otherwise, you might need to install it first. Refer to this link [link](https://pip.pypa.io/en/stable/installation/) for installation instructions.
 
-The background section contains a centred text component and my picture. It describes what I do for the last couple of years, and my decision to study IT.
+### Dependencies
 
-The skills component contains left-aligned text as well as various articles and divs to showcase my IT skills. These are placeholder contents for the purpose of this assignment.
+This is the list of the application's dependencies. You can also find this list by opening "requirements.txt" in the applications's "src" directory.
 
-The hobbies component contains right-aligned text describing my interests.
+```
+art==6.1
+colorama==0.4.6
+exceptiongroup==1.1.3
+iniconfig==2.0.0
+maskpass==0.3.7
+numpy==1.26.1
+packaging==23.2
+pluggy==1.3.0
+pytest==7.4.3
+pytest-mock==3.12.0
+six==1.16.0
+termcolor==2.3.0
+tomli==2.0.1
+```
 
-### Blog
-The "Blog" page contains five hyperlinked components each linked to their respective blog posts. Each component consist of an image, a blog title, a sub-heading stating the post's published date and its estimated read time, and a short description of the post's content. These are placeholder contents for the purpose of this assignment. Each component changes colour on hover to indicate that it is a clickable link.
-
-### Contacts
-The contact page contains a short message from me, my contact details (phone, email, and address), and a set of icons linking to my social / professional accounts. Each icon changes colour on hover to indicate that they are clickable links.
-
-### Blogposts
-The main content of each blogpost page contains the title of the post, a sub-heading stating its published date and estimated read time, an image, and an article. All are placeholder contents for now. 
-
-Under the main content, there is a "Recent Posts" section which contains 4 components linked to 4 of the most recent posts of the blog (excluding the post currently being opened). As there are only 5 blogposts for now, each blogpost have direct access to all the rest of the blogposts. Because these pages are not the main blog page where viewers need to be able to read the full title of the posts, the titles of the blogposts in the "Recent Posts" section are truncated with an ellipsis based on the size of its container, which alters based on screen size.
-
-## Sitemap
-![Sitemap](./docs/sitemap.png)
-Black arrows indicates links based on navigation bar, red arrows indicate links based on other elements in the page.
-
-## Screenshots
-Screenshots are taken full-size.
-
-### Mobile
-#### Home
-![home](./docs/screenshots/homephone.png)
-#### Experiences
-![experiences](./docs/screenshots/experiencesphone.png)
-#### About
-![about](./docs/screenshots/aboutphone.png)
-#### Blog
-![blog](./docs/screenshots/blogphone.png)
-#### Contact
-![contact](./docs/screenshots/contactphone.png)
-#### Blogpost
-![blogpost](./docs/screenshots/blogpostphone.png)
-
-### Tablet
-#### Home
-![home](./docs/screenshots/hometablet.png)
-#### Experiences
-![experiences](./docs/screenshots/experiencestablet.png)
-#### About
-![about](./docs/screenshots/abouttablet.png)
-#### Blog
-![blog](./docs/screenshots/blogtablet.png)
-#### Contact
-![contact](./docs/screenshots/contacttablet.png)
-#### Blogpost
-![blogpost](./docs/screenshots/blogposttablet.png)
-
-### Desktop (1920 x 1080)
-#### Home
-![home](./docs/screenshots/homedesktop.png)
-#### Experiences
-![experiences](./docs/screenshots/experiencesdesktop.png)
-#### About
-![about](./docs/screenshots/aboutdesktop.png)
-#### Blog
-![blog](./docs/screenshots/blogdesktop.png)
-#### Contact
-![contact](./docs/screenshots/contactdesktop.png)
-#### Blogpost
-![blogpost](./docs/screenshots/blogpostdesktop.png)
-
-## Wireframes
-### Mobile
-#### Home
-![home](./docs/wireframes/wireframehomephone.png)
-#### Experiences
-![experiences](./docs/wireframes/wireframeexperiencesphone.png)
-#### About
-![about](./docs/wireframes/wireframeaboutphone.png)
-#### Blog
-![blog](./docs/wireframes/wireframeblogphone.png)
-#### Contact
-![contact](./docs/wireframes/wireframecontactphone.png)
-#### Blogpost
-![blogpost](./docs/wireframes/wireframeblogpostphone.png)
-
-### Tablet
-#### Home
-![home](./docs/wireframes/wireframehometablet.png)
-#### Experiences
-![experiences](./docs/wireframes/wireframeexperiencestablet.png)
-#### About
-![about](./docs/wireframes/wireframeabouttablet.png)
-#### Blog
-![blog](./docs/wireframes/wireframeblogtablet.png)
-#### Contact
-![contact](./docs/wireframes/wireframecontacttablet.png)
-#### Blogpost
-![blogpost](./docs/wireframes/wireframeblogposttablet.png)
-
-### Desktop (1920 x 1080)
-#### Home
-![home](./docs/wireframes/wireframehomedesktop.png)
-#### Experiences
-![experiences](./docs/wireframes/wireframeexperiencesdesktop.png)
-#### About
-![about](./docs/wireframes/wireframeaboutdesktop.png)
-#### Blog
-![blog](./docs/wireframes/wireframeblogdesktop.png)
-#### Contact
-![contact](./docs/wireframes/wireframecontactdesktop.png)
-#### Blogpost
-![blogpost](./docs/wireframes/wireframeblogpostdesktop.png)
-
-## Tech Stack
-- Website: HTML, CSS, JavaScript
-- Sitemap: [draw.io](https://app.diagrams.net/)
-- Wireframe: [draw.io](https://app.diagrams.net/)
-- Deployment: [Vercel](https://vercel.com/)
-- Slide deck: [Microsoft Power Point](https://www.microsoft.com/en-au/microsoft-365/powerpoint)
-- Icons: [Icon Finder](https://www.iconfinder.com/)
-- Royalty-Free Stock Images: [Unsplash](https://unsplash.com/)
+### Installation
