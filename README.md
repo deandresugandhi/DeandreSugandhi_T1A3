@@ -43,19 +43,6 @@ The __high-score system__ is a feature that gathers game records from the JSON f
 
 Players can choose to customize how their game pieces are displayed on the game board during matches. This includes the piece type and piece color. The piece type is any single alphanumeric character chosen by the player that will be used to represent their game piece on the board, while the piece color defines the text color of the alphanumeric character. Players on a match are allowed to have the same piece color or piece type, but not both, to prevent confusion; if such a case is detected, the players are prompted to make changes to their piece properties. Players using guest accounts cannot access the piece customization feature, using the default guest account properties of __white__ __"O"__ piece for player 1 and __white__ __"X"__ piece for player 2.
 
-## Implementation Plan
-
-To track the development of this application, I used [GitHub Projects](https://docs.github.com/en/issues/planning-and-tracking-with-projects/learning-about-projects/about-projects) as my project management platform (Github, Inc., 2023). First, I created a separate card for each feature of the application. Then, I created a list of tasks using checkboxes for each feature. Throughout this process, what is included in each card is reorganized to make it feel more intuitive; as a result, for example, some features are combined into a single card, while some tasks that are connected or shared between multiple features get their own separate cards. In other words, for this project, each card does not necessarily represent each separate feature of the game, but rather a group of connected tasks. For instance, the __Customizable Piece__ feature and the game board from the __Connect Four Match__ feature are combined into a single card called __Game Board__, which represents the objects involved in a physical Connect Four game, namely the piece and the board. There is also a dedicated card called __Win / Draw Conditions__ despite it not being its own separate feature but a part of the __Connect Four Match__ feature, as I feel it is more helpful for me to separate the rules of the game from the game objects itself.
-
-I used the GitHub project's default labels as well as my own custom labels to help prioritize each card, such as using a __core__ label for cards that is an integral part of the application, __enhancement__ label for cards with functionalities that enhances user experience and are thus optional depending on the time available until deadline, __core complete__ label for cards with all core tasks completed, and __fully completed__ label for cards with all tasks fully completed.
-
-The __Roadmap__ and __Table__ view is helpful to add due dates and keep track of schedule, though in the end they are not really followed as my initial estimates of how long each card would take to complete turned out to be quite off, though it does help in deciding how to prioritize my time for each task. New features are also added as I work on the app and got new ideas, from which I checked the __Roadmap__ and due dates for each task; if I was well ahead of schedule, I would go on to try and implement the new features.
-
-__The link to the GitHub project can be found here: [T1A3 GitHub Project](https://github.com/users/deandresugandhi/projects/1)__
-
-__Screenshots can be found in the [More Screenshots](#more-screenshots) section of this document.__
-
-
 ### Player Lounge
 
 The game implements a class of objects called __GameHub__, which represents lobbies or hubs with a selection of features that a user can enter and access. Each have unique ASCII art visual representations resembling a room or corridor. The __Player Lounge__ is one such hub, with accessible features including piece customization, high-score board, and user information kiosk.
@@ -75,6 +62,20 @@ The __user information kiosk__ is a feature that allows players to input any use
 ### Main Lobby
 
 The main lobby is a __GameHub__ that acts as the landing area after both players have logged into an account. This is the hub from which the players can choose to start a Connect Four match, enter the __Player Lounge__, login to a different account, or exit the game.
+
+## Implementation Plan
+
+To track the development of this application, I used [GitHub Projects](https://docs.github.com/en/issues/planning-and-tracking-with-projects/learning-about-projects/about-projects) as my project management platform (Github, Inc., 2023). First, I created a separate card for each feature of the application. Then, I created a list of tasks using checkboxes for each feature. Throughout this process, what is included in each card is reorganized to make it feel more intuitive; as a result, for example, some features are combined into a single card, while some tasks that are connected or shared between multiple features get their own separate cards. In other words, for this project, each card does not necessarily represent each separate feature of the game, but rather a group of connected tasks. For instance, the __Customizable Piece__ feature and the game board from the __Connect Four Match__ feature are combined into a single card called __Game Board__, which represents the objects involved in a physical Connect Four game, namely the piece and the board. There is also a dedicated card called __Win / Draw Conditions__ despite it not being its own separate feature but a part of the __Connect Four Match__ feature, as I feel it is more helpful for me to separate the rules of the game from the game objects itself.
+
+I used the GitHub project's default labels as well as my own custom labels to help prioritize each card, such as using a __core__ label for cards that is an integral part of the application, __enhancement__ label for cards with functionalities that enhances user experience and are thus optional depending on the time available until deadline, __core complete__ label for cards with all core tasks completed, and __fully completed__ label for cards with all tasks fully completed.
+
+The __Roadmap__ and __Table__ view is helpful to add due dates and keep track of schedule, though in the end they are not really followed as my initial estimates of how long each card would take to complete turned out to be quite off, though it does help in deciding how to prioritize my time for each task. New features are also added as I work on the app and got new ideas, from which I checked the __Roadmap__ and due dates for each task; if I was well ahead of schedule, I would go on to try and implement the new features.
+
+__The link to the GitHub project can be found here: [T1A3 GitHub Project](https://github.com/users/deandresugandhi/projects/1)__
+
+__A more detailed, chronologically ordered series of screenshots can be accessed in the [More Screenshots](#more-screenshots) section of this document.__
+
+
 
 
 
