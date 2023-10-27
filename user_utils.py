@@ -217,7 +217,7 @@ class User:
                 ((self.wins + (0.5 * draws)) / self.games_played)
                 * 100
                 )
-      
+
             # Stores updated records in users.json.
             with open("users.json", "r", encoding="utf-8") as file:
                 users = json.load(file)
