@@ -6,6 +6,7 @@
 [Source Control Repository](https://github.com/deandresugandhi/DeandreSugandhi_T1A3/commits/main)
 
 ## Table of Contents
+
 - [Style Guide](#style-guide)
 - [Features & Functionalities](#features--functionalities)
 - [Implementation Plan](#implementation-plan)
@@ -129,7 +130,7 @@ python --version
 
 This should display the Python version installed on your system. Python 3.12 is recommended for this application. Refer to the link mentioned above if your Python version is lower.
 
-The application also uses pip to install the application's dependencies. It should come bundled with Python 3.4 and newer versions. Otherwise, you might need to install it first. Refer to this link [link](https://pip.pypa.io/en/stable/installation/) for installation instructions.
+The application also uses pip to install the application's dependencies. It should come bundled with Python 3.4 and newer versions. Otherwise, you might need to install it first. Refer to this [link](https://pip.pypa.io/en/stable/installation/) for installation instructions.
 
 ### Dependencies
 
@@ -152,3 +153,137 @@ tomli==2.0.1
 ```
 
 ### Installation
+
+1. __Download Application:__
+
+    - Open the [GitHub Repository](https://github.com/deandresugandhi/DeandreSugandhi_T1A3)
+    - Click the green "Code" button on top of the page. There should be a "Download ZIP" option. Click on it to download the application's ZIP folder. ![install-guide](./docs/install-guide.png)
+    - You can also download the ZIP folder directly from this [link](https://github.com/deandresugandhi/DeandreSugandhi_T1A3/archive/refs/heads/main.zip).
+    - Make sure to extract the folder to a path of your choice after downloading.
+
+2. __Run Application:__
+
+    - Open a new Terminal window.
+    - Navigate to the DeandreSugandhi_T1A3 folder. This will depend on your system and where your file is located. It may look something like this:
+
+        ```
+        cd C:/Users/YourName/Downloads/DeandreSugandhi_T1A3
+        ```
+
+    - From this directory, enter the following command:
+
+        ```
+        ./run.sh
+        ```
+
+        If Python 3 and pip are installed correctly, the command will create and activate a virtual environment for the application to run on, and all dependencies will be automatically installed. The application will then run.
+        
+        However, if permission error occurs, enter the following command:
+
+        ```
+        chmod +x ./run.sh
+        ```
+
+        This should fix the permission error. You can then enter __./run.sh__ again and it should work as expected.
+
+3. __Installing dependencies (if not done automatically)__
+
+    - While dependencies should be automatically installed when you run __run.sh__, in case of error, you can create a virtual environment and install the dependencies manually. First, make sure you are in the DeandreSugandhi_T1A3 directory. Then run the following command to create a virtual environment:
+
+        ```
+        python3 -m venv venv
+        ```
+
+        Then run the following command to activate the virtual environment:
+
+        ```
+        source venv/bin.activate
+        ```
+
+    - Install the dependencies using the following command:
+
+        ```
+        pip install {name of package}
+        ```
+
+        Substitute __{name of package}__ with the name of package that needs installing (such as __art==6.1__). See __Dependencies__ above for the list of packages that need to be installed.
+
+## More Screenshots
+
+### Day 1
+
+![Day 1 - 1](./docs/Day%201%20-%201.png)
+
+![Day 1 - 2](./docs/Day%201%20-%202.png)
+
+![Day 1 - 3](./docs/Day%201%20-%203.png)
+
+![Day 1 - 4](./docs/Day%201%20-%204.png)
+
+![Day 1 - 5](./docs/Day%201%20-%205.png)
+
+![Day 1 - 6](./docs/Day%201%20-%206.png)
+
+![Day 1 - 7](./docs/Day%201%20-%207.png)
+
+![Day 1 - 8](./docs/Day%201%20-%208.png)
+
+![Day 1 - 9](./docs/Day%201%20-%209.png)
+
+### Day 2
+
+![Day 2 - 1](./docs/Day%202%20-%201.png)
+
+![Day 2 - 2](./docs/Day%202%20-%202.png)
+
+![Day 2 - 3](./docs/Day%202%20-%203.png)
+
+### Day 3
+
+![Day 3 - 1](./docs/Day%203%20-%201.png)
+
+![Day 3 - 2](./docs/Day%203%20-%202.png)
+
+### Day 4
+
+![Day 4 - 1](./docs/Day%204%20-%201.png)
+
+![Day 4 - 2](./docs/Day%204%20-%202.png)
+
+![Day 4 - 3](./docs/Day%204%20-%203.png)
+
+### Day 5
+
+![Day 5 - 1](./docs/Day%205%20-%201.png)
+
+![Day 5 - 2](./docs/Day%205%20-%202.png)
+
+![Day 5 - 3](./docs/Day%205%20-%203.png)
+
+![Day 5 - 4](./docs/Day%205%20-%204.png)
+
+![Day 5 - 5](./docs/Day%205%20-%205.png)
+
+### Day 6
+
+![Day 6 - 1](./docs/Day%206%20-%201.png)
+
+![Day 6 - 2](./docs/Day%206%20-%202.png)
+
+![Day 6 - 3](./docs/Day%206%20-%203.png)
+
+![Day 6 - 4](./docs/Day%206%20-%204.png)
+
+![Day 6 - 5](./docs/Day%206%20-%205.png)
+
+### Day 7
+
+![Day 7 - 1](./docs/Day%207%20-%201.png)
+
+![Day 7 - 2](./docs/Day%207%20-%202.png)
+
+![Day 7 - 3](./docs/Day%207%20-%203.png)
+
+![Day 7 - 4](./docs/Day%207%20-%204.png)
+
+![Day 7 - 5](./docs/Day%207%20-%205.png)
