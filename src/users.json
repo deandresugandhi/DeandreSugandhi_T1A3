@@ -6,8 +6,8 @@
         "wins": 2,
         "losses": 1,
         "win_ratio": 60.0,
-        "color": "black",
-        "piece_type": "Z",
+        "color": "light_cyan",
+        "piece_type": "5",
         "logged_in": "n"
     },
     {
@@ -19,6 +19,17 @@
         "win_ratio": 75.0,
         "color": "light_yellow",
         "piece_type": "B",
+        "logged_in": "n"
+    },
+    {
+        "username": "tester009",
+        "pin": "0000",
+        "games_played": 0,
+        "wins": 0,
+        "losses": 0,
+        "win_ratio": 0.0,
+        "color": "green",
+        "piece_type": "9",
         "logged_in": "n"
     }
 ]

@@ -249,7 +249,7 @@ class PlayerLounge(GameHub):
             """,
             features=["customize", "user_info", "high_score"],
             prompt=(
-                "Welcome to the player lounge! Here you can customize" 
+                "Welcome to the player lounge! Here you can customize " 
                 "your piece and access player statistics." 
             )
         )

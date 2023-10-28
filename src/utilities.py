@@ -8,6 +8,7 @@ program.
 import re
 import subprocess
 import json
+import os
 
 # Third-party Library Modules
 from maskpass import askpass
@@ -19,9 +20,13 @@ from custom_errors import InvalidCommandError, UsernameError, ColorError
 
 def clear_screen():
     """A function that clears the terminal."""
-    try:
-        subprocess.run("cls", shell=True, check=True)
-    except subprocess.CalledProcessError:
+    # If OS is Windows, use cls
+    if os.name == "nt":
+        try:
+            subprocess.run("cls", shell=True, check=True)
+        except subprocess.CalledProcessError:
+            subprocess.run("clear", shell=True, check=True)
+    else:
         subprocess.run("clear", shell=True, check=True)
 
 

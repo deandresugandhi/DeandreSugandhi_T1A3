@@ -121,6 +121,7 @@ def game_in_progress(board, players, referee):
                 elif player_command.lower() == "clear":
                     board.clear_board()
                     player_turn = 0
+                    move_count = 0
                     break
                 # If "surrender", the player's surrender state is turned on,
                 # and the player loses the game.
