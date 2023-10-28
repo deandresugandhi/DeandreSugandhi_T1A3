@@ -200,6 +200,19 @@ tomli==2.0.1
         ```
 
         This should fix the permission error. You can then enter __./run.sh__ again and it should work as expected.
+    
+    - If you are using Windows, and are unable to proceed with __./run.sh__ or __chmod +x__, run the following command instead:
+
+        ```
+        bash run.sh
+        ```
+
+        In case of permission error, run this instead:
+
+        ```
+        icacls run.sh /grant Everyone:RX
+        ```
+
 
 3. __Installing dependencies (if not done automatically)__
 
