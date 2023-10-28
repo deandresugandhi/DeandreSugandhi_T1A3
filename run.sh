@@ -12,7 +12,6 @@ then
 fi
 
 if ! [[ -x "$(command -v pip)" ]] && ! [[ -x "$(command -v pip3)" ]]; then
-then
   echo 'Error: 
   pip is not installed yet. Please install pip before proceeding.
   You can check how to install pip from this link:
