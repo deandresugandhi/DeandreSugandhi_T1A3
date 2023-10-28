@@ -223,6 +223,13 @@ tomli==2.0.1
 
         Substitute __{name of package}__ with the name of package that needs installing (such as __art==6.1__). See __Dependencies__ above for the list of packages that need to be installed.
 
+4. __Playing the game__
+    
+    - Everytime you are required to input a command, the game will show a prompt that guides you on what commands are available and what you need to type in. For example, the following prompt __(y / n)__ means that you can type in "y" or "n" into your terminal (without the quotation marks) as a valid input.
+    - Press the __enter__ button on your keyboard after you type in a valid input based on the prompt to input your command. The game will read your input, and will proceed as appropriate.
+    - For most of the input you type in (with the exception of case sensitive inputs such as username or piece type), it would be recommended to type in all lowercase letters. While the application will convert all your inputs into lowercase letters anyway if it requires the format to be so, it would be recommended to manually type in lower case to prevent unexpected errors. Again, remember that this does not apply to inputs that are supposed to be case sensitive.
+    - Please do not attempt to modify __users.json__ in any way other than from the in-game commands themselves. Modifying it can cause __users.json__ to be invalid, which will cause errors in the game. There are fail-safe measures to ensure __users.json__ is in the right format, but it can cause some user data to be deleted if the program detects any wrong formatting.
+
 ## More Screenshots
 
 ### Day 1
