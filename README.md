@@ -2,8 +2,11 @@
 
 ### Student: Deandre Sugandhi
 
-[Github Repository](https://github.com/deandresugandhi/DeandreSugandhi_T1A3)<br>
+[Github Repository](https://github.com/deandresugandhi/DeandreSugandhi_T1A3)
+
 [Source Control Repository](https://github.com/deandresugandhi/DeandreSugandhi_T1A3/commits/main)
+
+[Implementation Plan](https://github.com/users/deandresugandhi/projects/1)
 
 ## Table of Contents
 
@@ -16,17 +19,17 @@
 
 ## Style Guide
 
-This application follows the code conventions suggested in the [PEP 8](https://peps.python.org/pep-0008/) style guide for Python code (van Rossum, et al., 2023). [Pylint](https://pypi.org/project/pylint/) and its [Visual Studio Code extension](https://marketplace.visualstudio.com/items?itemName=ms-python.pylint) is used to help maintain consistent adherence to PEP 8. However, there are a few instances where PEP 8 suggestions are intentionally not being applied to the code. While most of the code is limited to 79 characters per line, as suggested by van Rossum, et al., (2023) (PEP 8), some lines of code are longer than this, as based on personal judgement, they would not be as readable or function as intended if separated into multiple lines.
+This application follows the code conventions suggested in the [PEP 8](https://peps.python.org/pep-0008/) style guide for Python code (van Rossum, et al., 2023). [Pylint](https://pypi.org/project/pylint/) and its [Visual Studio Code extension](https://marketplace.visualstudio.com/items?itemName=ms-python.pylint) is used to help maintain consistent adherence to PEP 8 (LogiLab & Pylint Contributors, 2023). However, there are a few instances where PEP 8 suggestions are intentionally not being applied to the code. While most of the code is limited to 79 characters per line, as suggested by van Rossum, et al., (2023) (PEP 8), some lines of code are longer than this, as based on personal judgement, they would not be as readable or function as intended if separated into multiple lines.
 
 ## Features & Functionalities
 
-__Terminal Connect Four__ is a terminal application for playing the traditional __Connect Four__ game, with several added functionalities.
+__Terminal Connect Four__ is a terminal application for playing the traditional __Connect Four™️__ game (Hasbro, Inc., 2023), with several added functionalities.
 
 ### Connect Four Match
 
-The feature generates a __Connect Four__ board and game pieces for a PvP (Player vs Player) match between 2 players. The match follows the traditional rule of __Connect Four__, using the standard-size game board (7 columns and 6 rows) and winning conditions (4 pieces stacked horizontally, vertically, or diagonally). Players take turns placing their pieces on the board by inputting a column number to drop their pieces in until a winning or game draw condition is met.
+The feature generates a __Connect Four™️__ (Hasbro, Inc., 2023) board and game pieces for a PvP (Player vs Player) match between 2 players. The match follows the traditional rule of __Connect Four™️__ (Hasbro, Inc., 2023), using the standard-size game board (7 columns and 6 rows) and winning conditions (4 pieces stacked horizontally, vertically, or diagonally). Players take turns placing their pieces on the board by inputting a column number to drop their pieces in until a winning or game draw condition is met.
 
-The players are also able to input two additional commands in addition to a column number for dropping pieces. __"Clear"__ simulates the slider underneath a traditional __Connect Four__ board, which clears the board of all its pieces effectively resetting the game state. __"Surrender"__ allows a player to forfeit a match and grant automatic victory to the other player. Game records are then recorded into the user accounts the players' are logged into, unless guest accounts are used (see below).
+The players are also able to input two additional commands in addition to a column number for dropping pieces. __"Clear"__ simulates the slider underneath a traditional __Connect Four™️__ board (Hasbro, Inc., 2023), which clears the board of all its pieces effectively resetting the game state. __"Surrender"__ allows a player to forfeit a match and grant automatic victory to the other player. Game records are then recorded into the user accounts the players' are logged into, unless guest accounts are used (see below).
 
 ### User Account System
 
@@ -64,9 +67,21 @@ The __user information kiosk__ is a feature that allows players to input any use
 
 The main lobby is a __GameHub__ that acts as the landing area after both players have logged into an account. This is the hub from which the players can choose to start a Connect Four match, enter the __Player Lounge__, login to a different account, or exit the game.
 
+### Tests
+
+The test is executed for some of the most important functions and methods of the app, including those in game_engine.py, hubs.py, and utilities.py. [Pytest](https://docs.pytest.org/en/7.4.x/) is used to conduct the tests, and mocks are made using Pytest's [monkeypatch](https://docs.pytest.org/en/7.1.x/how-to/monkeypatch.html) (Krekel, et al., 2015). Test files are commented to explain why and how the test is executed. Report on the successful test results can be found in __test_report.txt__ in the root directory. Because the test depends on the user records stored in __users.json__ as of the time of test, it might not work in the future if __users.json__ has been modified such as by generating new users, changes in game records from playing matches, etc.
+
+![test_report_screenshot](./docs/test_report_screenshot.png)
+
+### Flowchart
+
+This is the rough flowchart of how the features work together in general:
+
+![flowchart](./docs/T1A3_Flowchart.png)
+
 ## Implementation Plan
 
-To track the development of this application, I used [GitHub Projects](https://docs.github.com/en/issues/planning-and-tracking-with-projects/learning-about-projects/about-projects) as my project management platform (Github, Inc., 2023). First, I created a separate card for each feature of the application. Then, I created a list of tasks using checkboxes for each feature. Throughout this process, what is included in each card is reorganized to make it feel more intuitive; as a result, for example, some features are combined into a single card, while some tasks that are connected or shared between multiple features get their own separate cards. In other words, for this project, each card does not necessarily represent each separate feature of the game, but rather a group of connected tasks. For instance, the __Customizable Piece__ feature and the game board from the __Connect Four Match__ feature are combined into a single card called __Game Board__, which represents the objects involved in a physical Connect Four game, namely the piece and the board. There is also a dedicated card called __Win / Draw Conditions__ despite it not being its own separate feature but a part of the __Connect Four Match__ feature, as I feel it is more helpful for me to separate the rules of the game from the game objects itself.
+To track the development of this application, I used [GitHub Projects](https://docs.github.com/en/issues/planning-and-tracking-with-projects/learning-about-projects/about-projects) as my project management platform (Github, Inc., 2023). First, I created a separate card for each feature of the application. Then, I created a list of tasks using checkboxes for each feature. Throughout this process, what is included in each card is reorganized to make it feel more intuitive; as a result, for example, some features are combined into a single card, while some tasks that are connected or shared between multiple features get their own separate cards. In other words, for this project, each card does not necessarily represent each separate feature of the game, but rather a group of connected tasks. For instance, the __Customizable Piece__ feature and the game board from the __Connect Four Match__ feature are combined into a single card called __Game Board__, which represents the objects involved in a physical __Connect Four™️__ game (Hasbro, Inc., 2023), namely the piece and the board. There is also a dedicated card called __Win / Draw Conditions__ despite it not being its own separate feature but a part of the __Connect Four Match__ feature, as I feel it is more helpful for me to separate the rules of the game from the game objects itself.
 
 I used the GitHub project's default labels as well as my own custom labels to help prioritize each card, such as using a __core__ label for cards that is an integral part of the application, __enhancement__ label for cards with functionalities that enhances user experience and are thus optional depending on the time available until deadline, __core complete__ label for cards with all core tasks completed, and __fully completed__ label for cards with all tasks fully completed.
 
@@ -197,7 +212,7 @@ tomli==2.0.1
         Then run the following command to activate the virtual environment:
 
         ```
-        source venv/bin.activate
+        source venv/bin/activate
         ```
 
     - Install the dependencies using the following command:
@@ -287,3 +302,33 @@ tomli==2.0.1
 ![Day 7 - 4](./docs/Day%207%20-%204.png)
 
 ![Day 7 - 5](./docs/Day%207%20-%205.png)
+
+## References
+
+Anifer, A., & Szkalka, B. (2022). _Maskpass_. https://pypi.org/project/maskpass/
+
+Github, Inc. (2023). _About projects_. https://docs.github.com/en/issues/planning-and-tracking-with-projects/learning-about-projects/about-projects
+
+Haghighi, S., & ART-Dev Team. (2023). _Art: ASCII Art Library for Python_. https://www.ascii-art.site/
+
+Hartley, J., Yaari, A., & Colorama-Dev Team. (2020). _Colorama_. https://pypi.org/project/colorama/
+
+Hasbro, Inc. (2023). _Connect 4 Game_. Hasbro Shop. https://shop.hasbro.com/en-au/product/connect-4-game/80FB5BCA-5056-9047-F5F4-5EB5DF88DAF4
+
+Hukkinen, T & Tomli-Dev Team. (2021). _Tomli_. https://github.com/hukkin/tomli
+
+Krekel, H., & Pytest-Dev Team. (2015). _Pytest_. https://docs.pytest.org/en/7.1.x/license.html
+
+Krekel, H., & Pytest-Dev Team. (2016). _Pluggy: The pytest plugin system_. https://pluggy.readthedocs.io/en/stable/
+
+LogiLab & Pylint Contributors. (2023). _Pylint_. https://www.pylint.org/
+
+NumPy Developers. (2022). _NumPy_. https://numpy.org/doc/stable/index.html
+
+Oliveira, B. (2022). _Pytest-mock_. https://pytest-mock.readthedocs.io/en/latest/
+
+Peterson, B. (2020). _Six: Python 2 and 3 compatibility library_. https://six.readthedocs.io/
+
+van Kemenade & Termcolor-Dev Team. (2023). _Termcolor_. https://github.com/termcolor/termcolor
+
+van Rossum, Warsaw, B., & Coghlan, A. (2023). _Pep 8 - style guide for Python code._ Python Enhancement Proposals. https://peps.python.org/pep-0008/
