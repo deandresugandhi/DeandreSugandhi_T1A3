@@ -137,7 +137,7 @@ def test_main_lobby_exit(monkeypatch):
     Tests the following sequence: enter main lobby, exit main lobby (exit
     the game)
     """
-    # Define requried variables
+    # Define required variables
     lobby = MainLobby()
 
     # Sequence of user input to achieve the desired sequence of commands
