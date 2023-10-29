@@ -207,7 +207,7 @@ tomli==2.0.1
         bash run.sh
         ```
 
-        In case of permission error, run this instead:
+        In case of permission error, run this first before running bash run.sh again:
 
         ```
         icacls run.sh /grant Everyone:RX
